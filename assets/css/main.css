@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary: #00c267;
+  --primary-lightest: #e6f9f0;
+  --primary-lighter: #bfefd8;
+  --primary-darker: #014f32;
+  --onyx-light: #36363d;
+  --onyx: #202028;
+  --onyx-lightest: #636368;
+  --onyx-lighter: #4c4c53;
+  --black: #22292f;
+}
+
+body {
+  font-family: 'Comfortaa', cursive;
+  color: var(--onyx);
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+  /* background: #e6f9f0; */
+  background: #fafafa;
+}
+
+.btn-primary,
+.btn-primary:hover {
+  color: #fff;
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.landing-page {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+}
+
+.left-page {
+  flex: 0 0 33.3333%;
+  background: #ffffff;
+}
+
+.auth-page .left-page {
+  flex: 0 0 50%;
+}
+
+.right-page {
+  flex: 0 0 66.6666%;
+  background: #fafafa;
+}
+
+.auth-page .right-page {
+  flex: 0 0 50%;
+}
+
+.logo-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item a.nav-link {
+  font-weight: 600;
+  color: var(--onyx) !important;
+}
