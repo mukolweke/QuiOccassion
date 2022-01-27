@@ -8,7 +8,7 @@
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
-    <title>Qui Occasions - Login</title>
+    <title>Qui Occasions - Forgot Password</title>
 
     <!-- Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
@@ -64,30 +64,23 @@
         <section class="auth-page-wrapper">
           
           <div class="d-flex justify-content-center align-items-center">
-            <p class="m-0 fw-bold">Don't have an account?</p>
+            <p class="m-0 fw-bold">Amnesia gone?</p>
 
-            <a href="/auth/register.php" class="btn btn-primary btn-auth" style="width: 184px;">
-              Register <i class="fas fa-arrow-right"></i>
+            <a href="/auth/login.php" class="btn btn-primary btn-auth" style="width: 184px;">
+              Login <i class="fas fa-arrow-right"></i>
             </a>
           </div>
 
           <form class="auth-form">
-            <div class="mb-4">
-              <label for="email" class="form-label">Email</label>
-              <input style="padding: 10px 0;" type="email" class="form-control" id="email">
-            </div>
             <div class="mb-5">
-              <label for="password" class="form-label">Password</label>
-              <input style="padding: 10px 0;" type="password" class="form-control" id="password">
+              <label for="email" class="form-label">Email</label>
+              <input style="padding: 10px 0;" type="email" class="form-control" id="email" aria-describedby="forgotHelp">
+              <div id="forgotHelp" class="mt-3 form-text">You will receive a reset link on email</div>
             </div>
             <div class="text-end">
-              <button type="submit" class="btn btn-primary btn-auth" style="width: 200px;">
-                Login <i class="fas fa-sign-in-alt"></i>
+              <button type="submit" class="btn btn-primary btn-auth" style="">
+                Reset Password <i class="fas fa-arrow-right"></i>
               </button>
-
-              <p class="mt-3" style="font-size: 14px;">
-                <a href="/auth/forgot-password.php" class="text-decoration-none" style="color: inherit;">Forgot Password ?</a>
-              </p>
             </div>
 
           </form>

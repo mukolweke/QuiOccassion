@@ -18,15 +18,18 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: content-box;
-  /* background: #e6f9f0; */
-  background: #fafafa;
+  background: #e6f9f0;
+  /* background: #fafafa; */
 }
 
 .btn-primary,
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
   color: #fff;
   background-color: var(--primary);
   border-color: var(--primary);
+  outline: none !important;
 }
 
 .landing-page {
@@ -47,11 +50,30 @@ body {
 
 .right-page {
   flex: 0 0 66.6666%;
-  background: #fafafa;
+  background: #e6f9f0;
 }
 
 .auth-page .right-page {
   flex: 0 0 50%;
+}
+
+.auth-page-wrapper {
+  padding: 40px 0;
+}
+
+.auth-form {
+  width: 400px;
+  margin: 200px auto;
+  text-align: left;
+}
+
+.auth-form.register {
+  margin: 100px auto;
+}
+
+.btn-auth {
+  margin-left: 20px;
+  padding: 10px 40px;
 }
 
 .logo-wrapper {
