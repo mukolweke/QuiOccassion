@@ -40,8 +40,13 @@ body {
 }
 
 .left-page {
-  flex: 0 0 33.3333%;
+  /* flex: 0 0 33.3333%;
+  */
   background: #ffffff;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 33%;
 }
 
 .auth-page .left-page {
@@ -49,9 +54,14 @@ body {
 }
 
 .right-page {
-  flex: 0 0 66.6666%;
-  /* background: #e6f9f0; */
+  /* flex: 0 0 66.6666%;
+  background: #e6f9f0; */
   background: #ffffff;
+  position: relative;
+  top: 0;
+  left: 33%;
+  height: 100vh;
+  width: 67%;
 }
 
 .auth-page .right-page {
@@ -71,6 +81,16 @@ body {
   width: 400px;
   margin: 100px auto;
   text-align: left;
+}
+
+.navbar-qui {
+  border-bottom: 1px solid #dadce0;
+  height: 100px;
+  position: fixed;
+  right: 0;
+  background: #ffffff;
+  width: 67%;
+  height: 100px;
 }
 
 .btn-auth {
@@ -94,7 +114,7 @@ body {
 
 .landing-page-wrapper {
   text-align: left;
-  padding: 100px 0;
+  padding: 200px 0 0;
   color: var(--onyx) !important;
   /* height: 90vh; */
   /* display: flex;
@@ -108,7 +128,8 @@ body {
   color: var(--onyx-lighter);
 }
 
-.services {
+.services,
+.upcoming-events {
   margin-top: 100px;
 }
 
@@ -133,4 +154,8 @@ body {
   font-weight: normal;
   text-transform: uppercase;
   line-height: 55px;
+}
+
+.upcoming-events {
+  background: #ffffff;
 }
