@@ -18,8 +18,6 @@
 
     <!-- Styles -->
     <!-- Bootsrap -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"> -->
-
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -476,6 +474,11 @@
           </div>
           <!-- End Contact Form -->
         </section>
+
+        <!-- footer -->
+        <footer class="footer">
+          <p>&copy; 2022. Developed by <span class="creator">Student Name</span></p>
+        </footer>
       </div>
     </section>
 
@@ -483,7 +486,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="/assets/js/main.js"></script>
 
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
   </body>
