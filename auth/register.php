@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="right-page">
-        <nav class="navbar navbar-expand-lg navbar-light bg-transparent" style="border-bottom: 1px solid #a7a4a4c4; height: 100px">
+        <nav class="navbar navbar-expand-lg navbar-light" style="border-bottom: 1px solid #dadce0; height: 100px">
           <div class="container-fluid">
               <button
                   class="navbar-toggler"
@@ -51,7 +51,7 @@
               >
                   <ul class="navbar-nav">
                       <li class="nav-item">
-                          <a class="nav-link" href="/about.php">About</a>
+                          <a class="nav-link" href="/">Home</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link" href="/events.php">Events</a>
@@ -71,7 +71,7 @@
             </a>
           </div>
 
-          <form class="auth-form register">
+          <form class="auth-form">
             <div class="mb-4">
               <label for="full_name" class="form-label">Full Name</label>
               <input style="padding: 10px 0;" type="text" class="form-control" id="full_name">

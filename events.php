@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="right-page">
-      <nav class="navbar navbar-expand-lg navbar-light bg-transparent" style="border-bottom: 1px solid #a7a4a4c4; height: 100px">
+      <nav class="navbar navbar-expand-lg navbar-light bg-transparent" style="border-bottom: 1px solid #dadce0; height: 100px">
         <div class="container-fluid">
             <button
                 class="navbar-toggler"
