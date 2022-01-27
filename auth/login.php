@@ -89,7 +89,6 @@
                 <a href="/auth/forgot-password.php" class="text-decoration-none" style="color: inherit;">Forgot Password ?</a>
               </p>
             </div>
-
           </form>
 
         </section>

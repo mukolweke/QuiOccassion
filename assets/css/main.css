@@ -18,8 +18,19 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: content-box;
-  background: #e6f9f0;
+  background: #ffffff;
   /* background: #fafafa; */
+}
+
+.btn:focus, 
+.btn:active:focus, 
+input:focus, 
+input:active:focus, 
+textarea:focus,
+textarea:active:focus { 
+  outline: none; ! important; 
+  outline-style: none;
+  box-shadow: none !important;
 }
 
 .btn-primary,
@@ -91,6 +102,7 @@ body {
   background: #ffffff;
   width: 67%;
   height: 100px;
+  z-index: 1;
 }
 
 .btn-auth {
@@ -158,4 +170,58 @@ body {
 
 .upcoming-events {
   background: #ffffff;
+  padding-right: 1rem;
+}
+
+.contacts {
+  margin-top: 100px;
+  color: #ffffff;
+  background: #00c267;
+  border-radius: 16px;
+  padding: 40px 80px;
+}
+
+.contacts-wrapper {
+  display: flex;
+}
+
+.contact-details {
+  flex: 0 0 50%;
+}
+
+.contacts-form {
+  flex: 0 0 50%;
+  color: var(--onyx);
+  background: #ffffff;
+  padding: 32px;
+  margin-left: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 25px 0 rgba(1, 79, 50, 0.1);
+}
+
+.contacts p {
+  color: #ffffff;
+}
+
+.contacts .contact-item {
+  padding: 16px;
+  width: auto;
+  transition: 0.3s all;
+}
+
+.contacts .contact-item p {
+  width: auto;
+}
+
+.contacts .contact-item:hover {
+  border: 1px solid #fafafa;
+  border-radius: 8px;
+}
+
+.contacts .contact-item .icon {
+  margin-right: 16px;
+}
+
+.contact-form label {
+  font-weight: 700;
 }
