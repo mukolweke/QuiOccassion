@@ -60,7 +60,7 @@
           </div>
         </nav>
 
-        <section class="auth-page-wrapper" style="margin-top: 150px">
+        <section class="auth-page-wrapper" style="position: relative; margin-top: 150px; z-index: 1;">
           
           <div class="d-flex justify-content-center align-items-center">
             <p class="m-0 fw-bold">Don't have an account?</p>
@@ -73,11 +73,11 @@
           <form class="auth-form">
             <div class="mb-4">
               <label for="email" class="form-label">Email</label>
-              <input style="padding: 10px 0;" type="email" class="form-control" id="email">
+              <input style="padding: 10px;" type="email" class="form-control" id="email">
             </div>
             <div class="mb-5">
               <label for="password" class="form-label">Password</label>
-              <input style="padding: 10px 0;" type="password" class="form-control" id="password">
+              <input style="padding: 10px;" type="password" class="form-control" id="password">
             </div>
             <div class="text-end">
               <button type="submit" class="btn btn-primary btn-auth" style="width: 200px;">
@@ -90,6 +90,8 @@
             </div>
           </form>
         </section>
+
+        <img src="/assets/img/bg-hero.png" class="bg-image" alt="Banner Image">
 
       </div>
     </section>

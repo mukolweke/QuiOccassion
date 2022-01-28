@@ -60,7 +60,7 @@
           </div>
         </nav>
 
-        <section class="auth-page-wrapper" style="margin-top: 100px;">
+        <section class="auth-page-wrapper" style="position: relative; margin-top: 100px; z-index: 1;">
           <div class="d-flex justify-content-center align-items-center">
             <p class="m-0 fw-bold">Amnesia gone?</p>
 
@@ -77,7 +77,7 @@
             <div class="mb-5">
               <label for="email" class="form-label">Email</label>
               <input
-                style="padding: 10px 0"
+                style="padding: 10px"
                 type="email"
                 class="form-control"
                 id="email"
@@ -94,6 +94,8 @@
             </div>
           </form>
         </section>
+
+        <img src="/assets/img/bg-hero.png" class="bg-image" alt="Banner Image">
 
       </div>
     </section>

@@ -41,7 +41,6 @@
           <?php include 'about.php' ?>
           <!-- End About section -->
 
-
           <!-- Venues -->
           <?php include 'venues.php'?>
           <!-- End Venues -->
@@ -49,7 +48,6 @@
           <!-- Upcoming Events -->
           <?php include 'events.php'?>
           <!-- End of events -->
-
 
           <!-- Contact Form -->
           <?php include 'contact.php'?>

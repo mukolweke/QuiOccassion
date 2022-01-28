@@ -93,6 +93,15 @@ textarea:active:focus {
   text-align: left;
 }
 
+.bg-image {
+  opacity: 0.1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+}
+
 .navbar-qui {
   border-bottom: 1px solid #dadce0;
   height: 100px;
