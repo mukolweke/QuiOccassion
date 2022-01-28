@@ -199,18 +199,12 @@ textarea:active:focus {
 }
 
 .contacts .contact-item {
-  padding: 16px;
+  padding: 16px 0;
   width: auto;
-  transition: 0.3s all;
 }
 
 .contacts .contact-item p {
   width: auto;
-}
-
-.contacts .contact-item:hover {
-  border: 1px solid #fafafa;
-  border-radius: 8px;
 }
 
 .contacts .contact-item .icon {
@@ -219,6 +213,16 @@ textarea:active:focus {
 
 .contact-form label {
   font-weight: 700;
+}
+
+.contacts .social-links {
+  width: 280px;
+  padding: 16px 0;
+}
+
+.contacts .social-link a{
+  color: #ffffff;
+  font-size: 32px;
 }
 
 .footer {

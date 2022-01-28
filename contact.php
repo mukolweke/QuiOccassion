@@ -4,16 +4,23 @@
                 <h2 class="mb-3">Get a quote</h2>
                 <p class="mb-5">Fill up the form and our Team will get back to you with 24 hours.</p>
 
-                <div style="width: 280px;">
+                <div class="mb-5" style="width: 280px;">
                   <div class="contact-item">
                     <p class="p-0 m-0"><span class="icon"><i class="fas fa-phone" style="transform: rotate(90deg);"></i></span> <span>(+254)722 000000</span></p>
                   </div>
                   <div class="contact-item">
-                    <p class="p-0 m-0"><span class="icon"><i class="fas fa-envelope"></i></span> <span>(+254)722 000000</span></p>
+                    <p class="p-0 m-0"><span class="icon"><i class="fas fa-envelope"></i></span> <span>testing@gmail.com</span></p>
                   </div>
                   <div class="contact-item">
                     <p class="p-0 m-0"><span class="icon"><i class="fas fa-map-marker-alt"></i></span> <span>Imenti Bld, Nairobi. Kenya</span></p>
                   </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between social-links">
+                  <p class="m-0 p-0 social-link"><a href="#" style="font-size: 28px;"><i class="fab fa-facebook-f"></i></a></p>
+                  <p class="m-0 p-0 social-link"><a href="#"><i class="fab fa-twitter"></i></a></p>
+                  <p class="m-0 p-0 social-link"><a href="#"><i class="fab fa-linkedin-in"></i></a></p>
+                  <p class="m-0 p-0 social-link"><a href="#"><i class="fab fa-instagram"></i></a></p>
                 </div>
               </div>
 
