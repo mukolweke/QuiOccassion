@@ -135,7 +135,8 @@ textarea:active:focus {
 }
 
 .services,
-.upcoming-events {
+.upcoming-events,
+.venues {
   margin-top: 100px;
 }
 
@@ -231,4 +232,43 @@ textarea:active:focus {
 .footer .creator {
   font-weight: 700;
   color: var(--primary);
+}
+
+.venues .venues-wrapper {
+  padding: 40px 16px 0 0;
+}
+
+.venues .venues-wrapper .venue-card {
+  border-radius: 16px;
+  border: 1px solid #dadce0;
+  box-shadow: 0 4px 25px 0 rgba(1, 79, 50, 0.1);
+  margin-bottom: 24px;
+}
+
+.venues .venues-wrapper .venue-card .venue-img {
+  width: 25%;
+}
+
+.venues .venues-wrapper .venue-card img {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  object-fit: cover;
+}
+
+.venues .venues-wrapper .venue-card .venue-description,
+.venues .venues-wrapper .venue-card .venue-capacity {
+  margin-bottom: 8px !important;
+}
+
+.venues .venues-wrapper .venue-card .venue-capacity {
+  font-style: italic;
+}
+
+.venues .venues-wrapper .venue-card .price-tag {
+  background: var(--primary-lighter);
+  padding: 4px !important;
+  width: auto;
+  display: inline-block;
+  border-radius: 8px;
+  margin-bottom: 16px !important;
 }
