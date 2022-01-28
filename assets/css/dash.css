@@ -40,7 +40,35 @@
 }
 
 .dash-main-wrapper {
-  padding: 40px 20px;
+  padding: 40px;
   background: #fafafa;
   width: 90vw;
+}
+
+.table-wrapper {
+  margin-top: 80px;
+  background: #ffffff;
+  padding: 20px 8px;
+}
+
+.table-wrapper .table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.table-wrapper .table-header .table-subtitle,
+.table-wrapper .table-list table th {
+  font-weight: 700;
+}
+
+.table-wrapper .table-list table thead {
+  background: var(--primary-lighter);
+  color: var(--primary-darker);
+  font-size: 20px;
+}
+
+.table-wrapper .table-list table tr {
+  height: 60px;
 }
