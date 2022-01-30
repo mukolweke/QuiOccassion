@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light navbar-dash">
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-right: 60px;">
         <div>
             <h3 style="color: var(--primary);">Qui Event Managest System</h3>
         </div>
@@ -22,7 +22,7 @@
                 <li class="nav-item">
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            Administrator
+                            <?php echo htmlspecialchars($_SESSION["full_name"])?>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li>

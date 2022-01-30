@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   
   // Validate credentials
   if(empty($username_err) && empty($password_err)){
-      if($stmt = $mysqli->prepare("SELECT id, email, password FROM users WHERE email = ?")){
+      if($stmt = $mysqli->prepare("SELECT id, full_name, password FROM users WHERE email = ?")){
           $stmt->bind_param("s", $param_email);
           $param_email = $email;
           
@@ -44,9 +44,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               // Store result
               $stmt->store_result();
               
-              // Check if username exists, if yes then verify password
+              // Check if email exists, if yes then verify password
               if($stmt->num_rows == 1){                    
-                  $stmt->bind_result($id, $email, $hashed_password);
+                  $stmt->bind_result($id, $full_name, $hashed_password);
                   if($stmt->fetch()){
                       if(password_verify($password, $hashed_password)){
                           // Password is correct, so start a new session
@@ -55,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                           // Store data in session variables
                           $_SESSION["loggedin"] = true;
                           $_SESSION["id"] = $id;
-                          $_SESSION["email"] = $email;                            
+                          $_SESSION["full_name"] = $full_name;
                           
                           // Redirect user to dash index page
                           header("location: ../dash/index.php");
