@@ -26,11 +26,13 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li>
-                            <a class="dropdown-item" href="/admin/index.php?page=profile">
-                                <span><i class="far fa-user"></i></span>  Profile
-                            </a>
+                                <a class="dropdown-item" href="/dash/index.php?page=profile">
+                                    <span><i class="far fa-user"></i></span>  Profile
+                                </a>
                             </li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            <li>
+                                <a class="dropdown-item" href="/auth/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

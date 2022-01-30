@@ -1,3 +1,88 @@
+<?php 
+// Initialize the session
+session_start();
+
+// Check if the user is already logged in, if yes then redirect him to welcome page
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+  header("location: ../dash/index.php");
+  exit;
+}
+
+require_once "../scripts/db_conn.php";
+
+// variables and initialize with empty values
+$email = $password = "";
+$email_err = $password_err = $login_err = "";
+
+// Processing login form data when submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+ 
+  // email validation
+  if(empty(trim($_POST["email"]))) {
+    $email_err = "Please enter an email";
+  }else if (!filter_var(trim($_POST["email"]), FILTER_VALIDATE_EMAIL)) { // src: w3schools
+    $email_err = "Please enter a valid email address";
+  }else{
+    $email = $_POST["email"];
+  }
+  
+  // password validation
+  if(empty(trim($_POST["password"]))){
+      $password_err = "Please enter your password.";
+  } else{
+      $password = trim($_POST["password"]);
+  }
+  
+  // Validate credentials
+  if(empty($username_err) && empty($password_err)){
+      if($stmt = $mysqli->prepare("SELECT id, email, password FROM users WHERE email = ?")){
+          $stmt->bind_param("s", $param_email);
+          $param_email = $email;
+          
+          // Attempt to execute the prepared statement
+          if($stmt->execute()){
+              // Store result
+              $stmt->store_result();
+              
+              // Check if username exists, if yes then verify password
+              if($stmt->num_rows == 1){                    
+                  $stmt->bind_result($id, $email, $hashed_password);
+                  if($stmt->fetch()){
+                      if(password_verify($password, $hashed_password)){
+                          // Password is correct, so start a new session
+                          session_start();
+                          
+                          // Store data in session variables
+                          $_SESSION["loggedin"] = true;
+                          $_SESSION["id"] = $id;
+                          $_SESSION["email"] = $email;                            
+                          
+                          // Redirect user to dash index page
+                          header("location: ../dash/index.php");
+                      } else{
+                          // Password is not valid, display a generic error message
+                          $login_err = "Invalid email or password.";
+                      }
+                  }
+              } else{
+                  // Email doesn't exist, display a generic error message
+                  $login_err = "Invalid email or password.";
+              }
+          } else{
+              echo "Oops! Something went wrong. Please try again later.";
+          }
+
+          // Close statement
+          $stmt->close();
+      }
+  }
+
+  // Close connection
+  $mysqli->close();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -70,14 +155,32 @@
             </a>
           </div>
 
-          <form class="auth-form">
+          <form class="auth-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <?php 
+            if(!empty($login_err)) {
+                echo '<div class="mb-4 alert alert-danger">' . $login_err . '</div>';
+            }        
+            ?>
+            
             <div class="mb-4">
               <label for="email" class="form-label">Email</label>
-              <input style="padding: 10px;" type="email" class="form-control" id="email">
+              <input style="padding: 10px;" 
+                type="email" 
+                id="email" 
+                name="email" 
+                class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" 
+                value="<?php echo $email; ?>">
             </div>
             <div class="mb-5">
               <label for="password" class="form-label">Password</label>
-              <input style="padding: 10px;" type="password" class="form-control" id="password">
+              <input
+                style="padding: 10px"
+                type="password"
+                class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>"
+                id="password"
+                name="password"
+                value="<?php echo $password; ?>"
+              />
             </div>
             <div class="text-end">
               <button type="submit" class="btn btn-primary btn-auth" style="width: 200px;">
