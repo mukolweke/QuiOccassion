@@ -9,4 +9,5 @@ session_destroy();
  
 // Redirect to landing page
 header("location: ../index.php");
+exit;
 ?>
