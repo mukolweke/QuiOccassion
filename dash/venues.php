@@ -5,10 +5,11 @@ require_once "../scripts/db_conn.php";
 $name = $address = $description = $rate = $image = "";
 $name_err = $address_err = $description_err = $rate_err = $image_err = "";
 $image_name = $tmp_img_name = "";
+$main_err = $main_succ = "";
 
  
 // Processing venue form data when submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'save'){
     // Validate name
     $input_name = trim($_POST["name"]);
     if(empty($input_name)){
@@ -35,7 +36,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $description = $input_description;
     }
 
-    // Validate salary
+    // Validate rate
     $input_rate = trim($_POST["rate"]);
     if(empty($input_rate)){
         $rate_err = "Please enter the rate amount.";     
@@ -44,28 +45,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{
         $rate = $input_rate;
     }
-
-    die(empty($_FILES['venue_image']['name'])); //TODO Start here
+    
     // Validate image
-    if(!empty($_FILES['venue_image']['name'])){
+    if(empty($_FILES['venue_image']['name'])){
         $image_err = "Please upload the venue image.";     
     } else{
-        $name = $_FILES['venue_image']['name'];
-        list($txt, $ext) = explode(".", $name);
+        list($txt, $ext) = explode(".", $_FILES['venue_image']['name']);
         $image_name = time().".".$ext;
         $tmp_img_name = $_FILES['venue_image']['tmp_name'];
     }
-die('am here'. $image_name);
+
+    if(!empty($name_err) || !empty($address_err) || !empty($description_err) || !empty($rate_err) || !empty($image_err)) {
+        $main_err = "Ooops! There are errors in form you just submitted";
+    }
+
     // Check input errors before inserting in database
     if(empty($name_err) && empty($address_err) && empty($description_err) && empty($rate_err) && empty($image_err)){
-        die ("am uploading");
         if(move_uploaded_file($tmp_img_name, '../assets/img/uploads/'.$image_name)){
-die ("uploaded");
-            $sql = "INSERT INTO venue (name, address, description, rate, image) VALUES (?, ?, ?, ?, ?)";
+
+            $sql = "INSERT INTO venues (name, address, description, rate, image) VALUES (?, ?, ?, ?, ?)";
 
             if($stmt = $mysqli->prepare($sql)){
                 $stmt->bind_param("sssss", $param_name, $param_address, $param_description, $param_rate, $param_image);
-                die ("details saved");
+
                 // parameters
                 $param_name = $name;
                 $param_address = $address;
@@ -75,21 +77,30 @@ die ("uploaded");
                 
                 if($stmt->execute()){
                     header("location: /dash/index.php?page=venues");
+                    $main_succ = "Venue details saved Successfully";
                     exit();
                 } else{
-                    echo "Oops! Something went wrong. Please try again later.";
+                    $main_err = "Oops! Something went wrong. Please try again later.";
                 }
             }
         }else{
-            echo "Oops! Something went wrong. Please try again later.";
+            $main_err = "Oops! Something went wrong. Please try again later.";
         }
      
         // Close statement
         $stmt->close();
+        
     }
-    
-    // Close connection
-    $mysqli->close();
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
+    $id = $_POST['venue_id'];
+
+    if($delete = $mysqli->query("DELETE FROM venues where id = " . $id)){
+        $main_succ = "Venue record deleted successfully";
+    }else {
+        $main_err = "Ooops! Deletion process was not successful";
+    }
 }
 ?>
 
@@ -102,12 +113,24 @@ die ("uploaded");
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal"><span><i class="fas fa-plus"></i></span> Venue</button>
         </div>
 
+        <?php 
+            if(!empty($main_err)) {
+                echo '<div class="alert alert-danger"><em>' . $main_err .'</em></div>';
+            }
+
+            if(!empty($main_succ)) {
+                echo '<div class="alert alert-success"><em>' . $main_succ .'</em></div>';
+            }
+        ?>
+
         <div class="table-list">
 
             <?php
             require_once "../scripts/db_conn.php";
 
-            $sql = "SELECT * FROM venue";
+            $sql = "SELECT * FROM venues";
+            $count = 1;
+            
             if($result = $mysqli->query($sql)){
                 if($result->num_rows > 0){
                     echo '<table class="table">';
@@ -125,17 +148,24 @@ die ("uploaded");
                         echo "<tbody>";
                         while($row = $result->fetch_array()){
                             echo "<tr>";
-                                echo "<td>" . $row['id'] . "</td>";
-                                echo "<td>" . $row['image'] . "</td>";
+                                echo "<td>" . $count . "</td>";
+                                echo "<td><img class='table_img' src='/assets/img/uploads/". $row['image'] ."' alt='Venue Image' /></td>";
                                 echo "<td>" . $row['name'] . "</td>";
                                 echo "<td>" . $row['address'] . "</td>";
                                 echo "<td>" . $row['description'] . "</td>";
-                                echo "<td> Ksh" . $row['rate'] . "</td>";
-                                echo "<td>";
-                                    echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                    echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                echo "<td> Ksh " . $row['rate'] . "</td>";
+                                echo "<td style=''>";
+                                    echo '<div class="btn-group" role="group">';
+                                        echo '<a href="/dash/index.php?page=venues_update&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-edit"></i></a>';
+                                        echo '<form method="post" action="/dash/index.php?page=venues">
+                                        <input name="venue_id" value=' . $row['id']. ' class="hidden">
+                                        <input name="action" value="delete" class="hidden">
+                                        <button type="submit" class="btn btn-transparent btn-sm"><i class="fas fa-trash"></i></button>
+                                        </form>';
+                                    echo '</div>';
                                 echo "</td>";
                             echo "</tr>";
+                            $count++;
                         }
                         echo "</tbody>";                            
                     echo "</table>";
@@ -145,7 +175,7 @@ die ("uploaded");
                     echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                 }
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                echo '<div class="alert alert-danger"><em>Oops! Something went wrong. Please try again later.</em></div>';
             }
             
             // Close connection
@@ -154,52 +184,54 @@ die ("uploaded");
 
         </div>
 
-        <!-- Modal -->
+        <!--Modal -->
         <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New Venue</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="<?php echo htmlspecialchars("/dash/index.php?page=venues"); ?>" method="post" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" 
-                        value="<?php echo $name; ?>" name="name">
-                        <span class="invalid-feedback"><?php echo $name_err;?></span>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Address</label>
-                        <input type="text" class="form-control <?php echo (!empty($address_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $address; ?>" name="address">
-                        <span class="invalid-feedback"><?php echo $address_err;?></span>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea class="form-control <?php echo (!empty($description_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $description; ?>" name="description" rows="3"></textarea>
-                        <span class="invalid-feedback"><?php echo $description_err;?></span>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Rate Per Hour</label>
-                        <input type="number" class="form-control <?php echo (!empty($rate_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $rate; ?>" name="rate" aria-describedby="rateHelp">
-                        <div id="rateHelp" class="form-text">Rate is in Ksh</div>
-                        <span class="invalid-feedback"><?php echo $rate_err;?></span>
-                    </div>
-                    <div class="mb-5">
-                        <label class="form-label">Venue Image</label>
-                        <input type="file" class="form-control <?php echo (!empty($image_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $image; ?>" name="venue_image" id="formFile">
-                        <span class="invalid-feedback"><?php echo $image_err;?></span>
-                    </div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Venue</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
-                    <div style="text-align: right;">
-                        <button type="button" class="btn btn-light bg-transparent" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Create Venue</button>
-                    </div>
-                </form>
+                    <form action="<?php echo htmlspecialchars("/dash/index.php?page=venues"); ?>" method="post" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" 
+                            value="<?php echo $name; ?>" name="name">
+                            <span class="invalid-feedback"><?php echo $name_err;?></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="form-control <?php echo (!empty($address_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $address; ?>" name="address">
+                            <span class="invalid-feedback"><?php echo $address_err;?></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control <?php echo (!empty($description_err)) ? 'is-invalid' : ''; ?>" name="description" rows="3"><?php echo $description; ?></textarea>
+                            <span class="invalid-feedback"><?php echo $description_err;?></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Rate Per Hour</label>
+                            <input type="number" min="0" class="form-control <?php echo (!empty($rate_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $rate; ?>" name="rate" aria-describedby="rateHelp">
+                            <div id="rateHelp" class="form-text">Rate is in Ksh</div>
+                            <span class="invalid-feedback"><?php echo $rate_err;?></span>
+                        </div>
+                        <div class="mb-5">
+                            <label class="form-label">Venue Image</label>
+                            <input type="file" class="form-control <?php echo (!empty($image_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $image; ?>" name="venue_image" id="formFile">
+                            <span class="invalid-feedback"><?php echo $image_err;?></span>
+                        </div>
+                        <input name="action" value="save" class="hidden">
+                        <div style="text-align: right;">
+                            <button type="button" class="btn btn-light bg-transparent" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Create Venue</button>
+                        </div>
+                    </form>
+                </div>
+                </div>
             </div>
-            </div>
-        </div>
         </div>
     </div>
 </div>

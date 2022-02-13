@@ -46,9 +46,9 @@
 }
 
 .table-wrapper {
-  margin-top: 80px;
+  margin-top: 20px;
   background: #ffffff;
-  padding: 20px 8px;
+  padding: 20px;
 }
 
 .table-wrapper .table-header {
@@ -71,4 +71,23 @@
 
 .table-wrapper .table-list table tr {
   height: 60px;
+}
+
+.table-wrapper .table-list table tr td {
+  vertical-align: middle;
+}
+
+.table_img {
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 8px;
+}
+
+.table_img img {
+  object-fit: contain;
+}
+
+.edit_body {
+  max-width: 600px;
+  margin-top: 50px;
 }
