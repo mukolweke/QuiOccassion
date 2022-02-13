@@ -4,10 +4,10 @@
             <span><i class="fas fa-home"></i></span>  Home
         </a>
         <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=events">
-            <span><i class="fas fa-align-left"></i></span>  Events
+            <span><i class="fas fa-calendar"></i></span>  Events
         </a>
         <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=venues">
-            <span><i class="fas fa-align-left"></i></span>  Venues
+            <span><i class="fas fa-map-marked-alt"></i></span>  Venues
         </a>
         <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=requests">
             <span><i class="fas fa-align-left"></i></span>  Requests

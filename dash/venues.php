@@ -214,7 +214,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Rate Per Hour</label>
-                            <input type="number" min="0" class="form-control <?php echo (!empty($rate_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $rate; ?>" name="rate" aria-describedby="rateHelp">
+                            <input type="number" min="0" class="form-control <?php echo (!empty($rate_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $rate ?? 0; ?>" name="rate" aria-describedby="rateHelp">
                             <div id="rateHelp" class="form-text">Rate is in Ksh</div>
                             <span class="invalid-feedback"><?php echo $rate_err;?></span>
                         </div>

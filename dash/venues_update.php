@@ -149,7 +149,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
             }
         ?>
 
-        <div class="edit_body">
+        <div class="form_body">
             <form action="<?php echo htmlspecialchars("/dash/index.php?page=venues_update&id=" . $_GET['id']); ?>" method="post" enctype="multipart/form-data">
 
                 <div class="mb-3">

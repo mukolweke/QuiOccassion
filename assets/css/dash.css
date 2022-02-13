@@ -87,7 +87,15 @@
   object-fit: contain;
 }
 
-.edit_body {
+.form_body {
   max-width: 600px;
   margin-top: 50px;
+}
+
+.w-280px {
+  width: 280px;
+}
+
+.text-right {
+  text-align: right;
 }
