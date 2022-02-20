@@ -7,36 +7,60 @@
         </div>
 
         <div class="table-list">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <?php
+            require_once "../scripts/db_conn.php";
+
+            $sql = "SELECT * FROM users ORDER BY id DESC";
+            $count = 1;
+            
+            if($result = $mysqli->query($sql)){
+                if($result->num_rows > 0){
+                    echo '<table class="table">';
+                        echo "<thead>";
+                            echo "<tr>";
+                                echo "<th>#</th>";
+                                echo "<th>Full Name</th>";
+                                echo "<th>Email</th>";
+                                echo "<th>Created</th>";
+                                echo "<th>Action</th>";
+                            echo "</tr>";
+                        echo "</thead>";
+                        echo "<tbody>";
+                        while($row = $result->fetch_array()){
+                            echo "<tr>";
+                                echo "<td>" . $count++ . "</td>";
+                                echo "<td>" . $row['full_name'] . "</td>";
+                                echo "<td>" . $row['email'] . "</td>";
+                                echo "<td>" . date("M d, Y A",strtotime($row['created_at'])) . "</td>";
+
+                                echo "<td style=''>";
+                                    if($row['id'] != $_SESSION['id']) {
+                                        echo '<div class="btn-group" role="group">';
+                                            echo '<a href="/dash/index.php?page=user&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-eye"></i></a>';
+                                        echo '</div>';
+                                    }else {
+                                        echo '';
+                                    }
+                                echo "</td>";
+                                
+                            echo "</tr>";
+                        }
+                        echo "</tbody>";                            
+                    echo "</table>";
+                    // Free result set
+                    $result->free();
+                } else{
+                    echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+                }
+            } else{
+                echo '<div class="alert alert-danger"><em>Oops! Something went wrong. Please try again later.</em></div>';
+            }
+            
+            // Close connection
+            $mysqli->close();
+            ?>
+
         </div>
     </div>
 </div>

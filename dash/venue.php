@@ -46,10 +46,10 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
     <div class="table-wrapper">
        <div class="d-flex justify-content-between">
             <div>
-                <h3> Name : <?php echo ucwords($name)?> </h3>
-                <p class='mt-5'> Address : <?php echo ucwords($address)?> </p>
-                <p> Rate : Ksh <?php echo $rate?> </p>
-                <p> Description : <?php echo $description?> </p>
+                <h3> Name : <?php echo ucwords($name); ?> </h3>
+                <p class='mt-5'> Address : <?php echo ucwords($address); ?> </p>
+                <p> Rate : Ksh <?php echo $rate; ?> </p>
+                <p> Description : <?php echo $description; ?> </p>
             </div>
 
             <div>
@@ -115,7 +115,5 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
 
         </div>
        </div>
-        
-        
     </div>
 </div>
