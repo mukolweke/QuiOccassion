@@ -104,3 +104,8 @@
   text-decoration: none;
   font-weight: bolder;
 }
+
+.form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}

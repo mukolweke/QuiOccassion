@@ -197,7 +197,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 
                 <div class="form-group mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="2" id="event_type" name="event_type" <?php echo isset($event_type) && $event_type == 1 ? "checked" : "" ?>>
+                        <input class="form-check-input" type="checkbox" value="1" id="event_type" name="event_type" <?php echo isset($event_type) && $event_type == 1 ? "checked" : "" ?>>
                         <label class="form-check-label" for="type">
                         Private Event (<i>Do not show in website</i>)
                         </label>
