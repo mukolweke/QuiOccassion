@@ -94,8 +94,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
     if(empty($name_err) && empty($address_err) && empty($description_err) && empty($rate_err) && empty($image_err)){
         if(move_uploaded_file($tmp_img_name, '../assets/img/uploads/'.$image_name)){
 
-            $sql = "INSERT INTO venues (name, address, description, rate, image) VALUES (?, ?, ?, ?, ?)";
-
             $sql = "UPDATE venues SET name=?, address=?, description=?, rate=?, image=? WHERE id=?";
 
             if($stmt = $mysqli->prepare($sql)){
@@ -110,7 +108,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 $param_id = $_GET['id'];
                 
                 if($stmt->execute()){
-                    header("location: /dash/index.php?page=venues");
+                    ?><script type="text/javascript">
+                    window.location = "/dash/index.php?page=venues";
+                    </script><?php
                     $main_succ = "Venue details saved Successfully";
                     exit();
                 } else{

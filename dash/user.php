@@ -44,7 +44,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
         <div>
             <h3> Full Name : <?php echo ucwords($name); ?> </h3>
             <p class='mt-5'> Email : <?php echo $email; ?> </p>
-            <p> Created : Ksh <?php echo date("M d, Y A",strtotime($row['created_at']));?> </p>
+            <p> Created :<?php echo date("M d, Y A",strtotime($row['created_at']));?> </p>
         </div>
 
        <div class="mt-5">
