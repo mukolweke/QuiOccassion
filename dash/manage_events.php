@@ -1,5 +1,6 @@
-<?php 
+<?php
 require_once "../scripts/db_conn.php";
+
 // Define variables and initialize with empty values
 /**
  * Event Types: Private & Public.
@@ -60,8 +61,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
     }
 
      // Validate amount
-     $input_payment_status = isset($_POST['payment_status']) ? trim($_POST["payment_status"]) : 0;
-     if(empty($payment_status)) { // if not free
+     $input_payment_status = isset($_POST['payment_status']) ? $_POST['payment_status'] : 0;
+
+     if($input_payment_status === 0) { // if not free
         $input_amount = trim($_POST["amount"]);
         if($input_amount < 1){
             $amount_err = "Please enter the fee amount.";     
@@ -70,6 +72,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
         } else{
             $amount = $input_amount;
         }
+     }else {
+        $amount = trim($_POST["amount"]);
      }
     
     // Validate banner image
@@ -102,14 +106,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 $param_type = $event_type;
                 $param_payment_type = $payment_type;
                 $param_audience_capcity = $audience_capacity;
-                $param_schedule = strtotime($schedule_date);
+                $param_schedule = $schedule_date;
                 $param_amount = $amount;
                 $param_banner = $banner_image_name;
-                die(date('Y-m-d',$schedule_date));
-                // die($name . " ".$description . " ".$venue_id ." ".$event_type ." ".$payment_type ." ".$audience_capacity ." ".date("Y-m-d", $schedule_date) ." ".$amount ." ".$banner_image_name );
+
                 if($stmt->execute()){
-                    die('executed');
-                    header("location: /dash/index.php?page=events");
+                    ?><script type="text/javascript">
+                    window.location = "/dash/index.php?page=events";
+                    </script><?php
                     $main_succ = "Venue details saved Successfully";
                     exit();
                 } else{
@@ -122,9 +126,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
      
         // Close statement
         $stmt->close();
+    }else {
+        $main_err = "Oops! Something went wrong. Please check the form.";
     }
 }
-
 ?>
 
 <div>
@@ -136,11 +141,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
         </div>
 
         <div class="form_body">
+            <?php include 'succ_err_view.php' ?>
+
             <form action="<?php echo htmlspecialchars("/dash/index.php?page=manage_events"); ?>" method="post" enctype="multipart/form-data">
 
                 <div class="d-flex justify-content-between">
                     <div class="mb-3 w-280px">
-                        <label class="form-label">Name</label>
+                        <label class="form-label">Event Name</label>
                         <input type="text" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" 
                         value="<?php echo $name; ?>" name="name">
                         <span class="invalid-feedback"><?php echo $name_err;?></span>
@@ -190,7 +197,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 
                 <div class="form-group mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="2" id="event_type" name="event_type" <?php echo isset($event_type) && $event_type == 2 ? "checked" : "" ?>>
+                        <input class="form-check-input" type="checkbox" value="2" id="event_type" name="event_type" <?php echo isset($event_type) && $event_type == 1 ? "checked" : "" ?>>
                         <label class="form-check-label" for="type">
                         Private Event (<i>Do not show in website</i>)
                         </label>

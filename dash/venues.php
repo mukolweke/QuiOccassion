@@ -7,7 +7,6 @@ $name_err = $address_err = $description_err = $rate_err = $image_err = "";
 $image_name = $tmp_img_name = "";
 $main_err = $main_succ = "";
 
- 
 // Processing venue form data when submitted
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'save'){
     // Validate name
@@ -76,7 +75,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 $param_image = $image_name;
                 
                 if($stmt->execute()){
-                    header("location: /dash/index.php?page=venues");
+                    ?><script type="text/javascript">
+                    window.location = "/dash/index.php?page=venues";
+                    </script><?php
                     $main_succ = "Venue details saved Successfully";
                     exit();
                 } else{
@@ -113,15 +114,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal"><span><i class="fas fa-plus"></i></span> Venue</button>
         </div>
 
-        <?php 
-            if(!empty($main_err)) {
-                echo '<div class="alert alert-danger"><em>' . $main_err .'</em></div>';
-            }
-
-            if(!empty($main_succ)) {
-                echo '<div class="alert alert-success"><em>' . $main_succ .'</em></div>';
-            }
-        ?>
+        <?php include 'succ_err_view.php' ?>
 
         <div class="table-list">
 
@@ -148,7 +141,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
                         echo "<tbody>";
                         while($row = $result->fetch_array()){
                             echo "<tr>";
-                                echo "<td>" . $count . "</td>";
+                                echo "<td>" . $count++ . "</td>";
                                 echo "<td><img class='table_img' src='/assets/img/uploads/". $row['image'] ."' alt='Venue Image' /></td>";
                                 echo "<td>" . $row['name'] . "</td>";
                                 echo "<td>" . $row['address'] . "</td>";
@@ -165,7 +158,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
                                     echo '</div>';
                                 echo "</td>";
                             echo "</tr>";
-                            $count++;
                         }
                         echo "</tbody>";                            
                     echo "</table>";

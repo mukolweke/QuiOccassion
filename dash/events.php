@@ -12,7 +12,7 @@
             <?php
             require_once "../scripts/db_conn.php";
 
-            $sql = "SELECT * FROM events";
+            $sql = "SELECT events.*, venues.name as venue_name FROM events INNER JOIN venues ON events.venue_id=venues.id";
             $count = 1;
             
             if($result = $mysqli->query($sql)){
@@ -21,7 +21,6 @@
                         echo "<thead>";
                             echo "<tr>";
                                 echo "<th>#</th>";
-                                echo "<th>Name</th>";
                                 echo "<th>Schedule</th>";
                                 echo "<th>Venue</th>";
                                 echo "<th>Event Info</th>";
@@ -32,12 +31,15 @@
                         echo "<tbody>";
                         while($row = $result->fetch_array()){
                             echo "<tr>";
-                                echo "<td>" . $count . "</td>";
-                                echo "<td>" . $row['name'] . "</td>";
-                                echo "<td>" . $row['schedule'] . "</td>";
-                                echo "<td>" . $row['venue'] . "</td>";
-                                echo "<td> Ksh " . $row['info'] . "</td>";
-                                echo "<td> Ksh " . $row['description'] . "</td>";
+                                echo "<td>" . $count++ . "</td>";
+                                echo "<td>" . date("M d, Y A",strtotime($row['schedule'])) . "</td>";
+                                echo "<td>" . $row['venue_name'] . "</td>";
+                                echo "<td>" . 
+                                    "<p><b>Event Name: </b>" . $row['name'] . "</p>" .
+                                    "<p><small><b>Event Type: </b>" . ($row['type'] == 1 ? 'Private' : 'Public') . "</small></p>" .
+                                    "<p><small><b>Fee: </b> ". ($row['payment_type']  == 1 ? 'Free' : 'Ksh '.number_format($row['amount'],2)) ." </small></p>" .
+                                "</td>";
+                                echo "<td>" . $row['description'] . "</td>";
                                 echo "<td style=''>";
                                     echo '<div class="btn-group" role="group">';
                                         echo '<a href="/dash/index.php?page=venues_update&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-edit"></i></a>';
@@ -49,7 +51,6 @@
                                     echo '</div>';
                                 echo "</td>";
                             echo "</tr>";
-                            $count++;
                         }
                         echo "</tbody>";                            
                     echo "</table>";
