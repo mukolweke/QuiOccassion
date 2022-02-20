@@ -4,7 +4,6 @@
         <p>List of our Event Venues</p>
     </div>
 
-    <!-- testing -->
     <div class="venues-wrapper">
         <div class="">
             <div class="card venue-card">
