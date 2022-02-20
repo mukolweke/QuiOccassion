@@ -95,3 +95,12 @@
 .text-right {
   text-align: right;
 }
+
+.table-link,
+.table-link:hover,
+.table-link:active,
+.table-link:focus {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bolder;
+}

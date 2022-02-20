@@ -121,7 +121,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
             <?php
             require_once "../scripts/db_conn.php";
 
-            $sql = "SELECT * FROM venues";
+            $sql = "SELECT * FROM venues ORDER BY id DESC";
             $count = 1;
             
             if($result = $mysqli->query($sql)){
@@ -149,6 +149,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
                                 echo "<td> Ksh " . $row['rate'] . "</td>";
                                 echo "<td style=''>";
                                     echo '<div class="btn-group" role="group">';
+                                        echo '<a href="/dash/index.php?page=venue&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-eye"></i></a>';
                                         echo '<a href="/dash/index.php?page=venues_update&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-edit"></i></a>';
                                         echo '<form method="post" action="/dash/index.php?page=venues">
                                         <input name="venue_id" value=' . $row['id']. ' class="hidden">

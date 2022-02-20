@@ -1,3 +1,17 @@
+<?php
+require_once "../scripts/db_conn.php";
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
+    $id = $_POST['event_id'];
+
+    if($delete = $mysqli->query("DELETE FROM events where id = " . $id)){
+        $main_succ = "Event record deleted successfully";
+    }else {
+        $main_err = "Ooops! Deletion process was not successful";
+    }
+}
+?>
+
 <div>
     <h3 class="table-title">Events</h3>
 
@@ -6,13 +20,15 @@
             <p class="table-subtitle">List of Scheduled Events</p>
             <a href="/dash/index.php?page=manage_events" class="btn btn-primary"><span><i class="fas fa-plus"></i></span> Schedule an Event</a>
         </div>
+        
+        <?php include 'succ_err_view.php' ?>
 
         <div class="table-list">
 
             <?php
             require_once "../scripts/db_conn.php";
 
-            $sql = "SELECT events.*, venues.name as venue_name FROM events INNER JOIN venues ON events.venue_id=venues.id";
+            $sql = "SELECT events.*, venues.name as venue_name FROM events INNER JOIN venues ON events.venue_id=venues.id ORDER BY events.id DESC";
             $count = 1;
             
             if($result = $mysqli->query($sql)){
@@ -33,7 +49,7 @@
                             echo "<tr>";
                                 echo "<td>" . $count++ . "</td>";
                                 echo "<td>" . date("M d, Y A",strtotime($row['schedule'])) . "</td>";
-                                echo "<td>" . $row['venue_name'] . "</td>";
+                                echo "<td><a class='table-link' href='/dash/index.php?page=venue&id=". $row['venue_id'] ."'>".$row['venue_name']." </a></td>";
                                 echo "<td>" . 
                                     "<p><b>Event Name: </b>" . $row['name'] . "</p>" .
                                     "<p><small><b>Event Type: </b>" . ($row['type'] == 1 ? 'Private' : 'Public') . "</small></p>" .
@@ -42,9 +58,9 @@
                                 echo "<td>" . $row['description'] . "</td>";
                                 echo "<td style=''>";
                                     echo '<div class="btn-group" role="group">';
-                                        echo '<a href="/dash/index.php?page=venues_update&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-edit"></i></a>';
-                                        echo '<form method="post" action="/dash/index.php?page=venues">
-                                        <input name="venue_id" value=' . $row['id']. ' class="hidden">
+                                        echo '<a href="/dash/index.php?page=manage_events&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-edit"></i></a>';
+                                        echo '<form method="post" action="/dash/index.php?page=events">
+                                        <input name="event_id" value=' . $row['id']. ' class="hidden">
                                         <input name="action" value="delete" class="hidden">
                                         <button type="submit" class="btn btn-transparent btn-sm"><i class="fas fa-trash"></i></button>
                                         </form>';
