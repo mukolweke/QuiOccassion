@@ -6,6 +6,7 @@ require_once "./scripts/db_conn.php";
   <div class="contacts-wrapper">
     <div class="contact-details">
       <h2 class="mb-3">Get a quote</h2>
+      <p class="section-title-bar" style="width: 35%;"></p>
       <p class="mb-5">Fill up the form and our Team will get back to you with 24 hours.</p>
 
       <div class="mb-5" style="width: 280px;">

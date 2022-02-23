@@ -10,6 +10,8 @@
   --onyx-lightest: #636368;
   --onyx-lighter: #4c4c53;
   --black: #22292f;
+  --aux: #ef7f4d;
+  --aux-lighter: #ef7f4d54;
 }
 
 body {
@@ -112,7 +114,7 @@ textarea:active:focus {
 }
 
 .bg-image {
-  opacity: 0.1;
+  opacity: 0.06;
   position: fixed;
   left: 0;
   top: 0;
@@ -150,6 +152,10 @@ textarea:active:focus {
   color: var(--onyx) !important;
 }
 
+.nav-item a.nav-link:hover {
+  border-bottom: 3px solid var(--aux);
+}
+
 .landing-page-wrapper {
   text-align: left;
   padding: 200px 0 0;
@@ -180,6 +186,13 @@ textarea:active:focus {
 .services-item-img {
   width: 19%;
   margin-right: 15px;
+}
+
+.services-item-icon {
+  font-size: 50px;
+  line-height: 1;
+  margin-right: 15px;
+  color: #ef7f4d;
 }
 
 .services-item-title h2 {
@@ -267,6 +280,11 @@ textarea:active:focus {
 
 .venues .venues-wrapper {
   padding: 40px 16px 0 0;
+  height: 800px;
+  background: transparent;
+	margin: auto;
+	overflow: scroll;
+	position: relative;
 }
 
 .venues .venues-wrapper .venue-card {
@@ -278,6 +296,18 @@ textarea:active:focus {
 
 .venues .venues-wrapper .venue-card .venue-img {
   width: 25%;
+}
+
+.card-subtitle{
+  color: var(--aux) !important;
+  margin: 10px 0;
+  font-weight: 800 !important;
+  font-size: 14px;
+}
+
+.card-price {
+  color: var(--onyx-lightest) !important;
+  font-weight: 800 !important;
 }
 
 .venues .venues-wrapper .venue-card img {
@@ -296,10 +326,31 @@ textarea:active:focus {
 }
 
 .venues .venues-wrapper .venue-card .price-tag {
-  background: var(--primary-lighter);
-  padding: 4px !important;
+  background: var(--aux-lighter);
+  padding: 5px 10px !important;
   width: auto;
   display: inline-block;
   border-radius: 8px;
   margin-bottom: 16px !important;
+}
+
+.section-title-bar {
+  background: var(--aux);
+  height: 5px;
+  border-radius: 5px
+}
+
+.carousel-qui-inner::after {
+  background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+  content: "";
+  height: 100%;
+  position: absolute;
+  width: 100px;
+  z-index: 2;
+}
+
+.carousel-qui-inner::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
 }
