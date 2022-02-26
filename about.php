@@ -63,3 +63,5 @@
     </div>
   </div>
 </div>
+
+<?php include './dash/succ_err_view.php' ?>

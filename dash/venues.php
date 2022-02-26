@@ -85,7 +85,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 }
             }
         }else{
-            $main_err = "Oops! Something went wrong. Please try again later.";
+            $main_err = "Oops! Something went wrong uploading image. Please try again later.";
         }
      
         // Close statement

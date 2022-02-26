@@ -24,6 +24,7 @@
     />
 
     <!-- Custom -->
+    <link href="/assets/css/notification.css" rel="stylesheet" />
     <link href="/assets/css/main.css" rel="stylesheet" />
   </head>
   <body>

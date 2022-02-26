@@ -354,3 +354,7 @@ textarea:active:focus {
   top: 0;
   transform: rotateZ(180deg);
 }
+
+.modal-title .reserve-title {
+  color: var(--primary);
+}
