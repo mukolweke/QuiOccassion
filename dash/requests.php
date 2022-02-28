@@ -34,6 +34,7 @@ require_once "../scripts/db_conn.php";
                                             echo "<th>Capacity</th>";
                                             echo "<th>Status</th>";
                                             echo "<th>Created</th>";
+                                            echo "<th>Notes</th>";
                                             echo "<th>Action</th>";
                                         echo "</tr>";
                                     echo "</thead>";
@@ -63,18 +64,65 @@ require_once "../scripts/db_conn.php";
                                             }
 
                                             echo "<td>" . date("M d, Y A",strtotime($row['created_at'])) . "</td>";
+                                            echo "<td>" . $row['notes'] . "</td>";
 
                                             echo "<td style=''>";
-                                                if($row['id'] != $_SESSION['id']) {
-                                                    echo '<div class="btn-group" role="group">';
-                                                        echo '<a href="/dash/index.php?page=user&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-eye"></i></a>';
-                                                    echo '</div>';
-                                                }else {
-                                                    echo '';
-                                                }
+                                                echo '<div class="btn-group" role="group">';
+                                                    echo '<button class="btn btn-transparent"><span class="text-success" style="font-size: 20px;" data-bs-toggle="modal" data-bs-target="#confirm_modal_'. $row['id'].'"><i class="far fa-check-square"></i></span></button>';
+                                                    echo '<button class="btn btn-transparent"><span class="text-danger" style="font-size: 20px;" data-bs-toggle="modal" data-bs-target="#cancel_modal_'. $row['id'].'"><i class="far fa-window-close"></i></span></button>';
+                                                echo '</div>';
                                             echo "</td>";
                                             
                                         echo "</tr>";
+                                        ?>
+
+                                        <!-- Confirm Modal -->
+                                        <div class="modal fade" id="<?php echo 'confirm_modal_'. $row['id']?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Confirm <span style="color: var(--primary)"><?php echo $row['name']?></span> User Request</h5>
+
+                                                        <div class="mt-3">
+                                                            <form>
+                                                                <div class="mb-5">
+                                                                    <label for="exampleInputEmail1" class="form-label">Additional Notes</label>
+                                                                    <textarea class="form-control" placeholder="Add additional request notes here" style="height: 300px"></textarea>
+                                                                </div>
+                                                                <div class="text-right">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="button" class="btn btn-primary">Confirm Request</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cancel Modal -->
+                                        <div class="modal fade" id="<?php echo 'cancel_modal_'. $row['id']?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="text-center">
+                                                            <span class="text-danger mb-3" style="font-size: 100px;">
+                                                                <i class="far fa-times-circle"></i>
+                                                            </span>
+
+                                                            <h3 class="mb-3">Are you sure?<h3>
+
+                                                            <p class="mb-5" style="font-weight: 100; font-size: 18px">Do you really want to cancel use event request? This process cannot be undone.</p>
+
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-danger">Cancel Request</button>
+                                                        </div>
+                                                    </div>
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
                                     }
                                     echo "</tbody>";                            
                                 echo "</table>";
@@ -151,16 +199,63 @@ require_once "../scripts/db_conn.php";
                                             echo "<td>" . date("M d, Y A",strtotime($row['created_at'])) . "</td>";
 
                                             echo "<td style=''>";
-                                                if($row['id'] != $_SESSION['id']) {
-                                                    echo '<div class="btn-group" role="group">';
-                                                        echo '<a href="/dash/index.php?page=user&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-eye"></i></a>';
-                                                    echo '</div>';
-                                                }else {
-                                                    echo '';
-                                                }
+                                                echo '<div class="btn-group" role="group">';
+                                                    echo '<button class="btn btn-transparent"><span class="text-success" style="font-size: 20px;" data-bs-toggle="modal" data-bs-target="#confirm_modal_'. $row['id'].'"><i class="far fa-check-square"></i></span></button>';
+                                                    echo '<button class="btn btn-transparent"><span class="text-danger" style="font-size: 20px;" data-bs-toggle="modal" data-bs-target="#cancel_modal_'. $row['id'].'"><i class="far fa-window-close"></i></span></button>';
+                                                echo '</div>';
                                             echo "</td>";
                                             
                                         echo "</tr>";
+
+                                        ?>
+
+                                        <!-- Confirm Modal -->
+                                        <div class="modal fade" id="<?php echo 'confirm_modal_'. $row['id']?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Confirm <span style="color: var(--primary)"><?php echo $row['name']?></span> Venue Booking</h5>
+
+                                                        <div class="mt-3">
+                                                            <form>
+                                                                <div class="mb-5">
+                                                                    <label for="exampleInputEmail1" class="form-label">Additional Notes</label>
+                                                                    <textarea class="form-control" placeholder="Add additional request notes here" style="height: 300px"></textarea>
+                                                                </div>
+                                                                <div class="text-right">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="button" class="btn btn-primary">Confirm Booking</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cancel Modal -->
+                                        <div class="modal fade" id="<?php echo 'cancel_modal_'. $row['id']?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="text-center">
+                                                            <span class="text-danger mb-3" style="font-size: 100px;">
+                                                                <i class="far fa-times-circle"></i>
+                                                            </span>
+
+                                                            <h3 class="mb-3">Are you sure?<h3>
+
+                                                            <p class="mb-5" style="font-weight: 100; font-size: 18px">Do you really want to cancel user venue booking? This process cannot be undone.</p>
+
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-danger">Cancel Request</button>
+                                                        </div>
+                                                    </div>
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
                                     }
                                     echo "</tbody>";                            
                                 echo "</table>";
