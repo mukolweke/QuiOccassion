@@ -14,6 +14,11 @@
   --aux-lighter: #ef7f4d54;
 }
 
+html,
+body {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Comfortaa', cursive;
   color: var(--onyx);
@@ -130,7 +135,7 @@ textarea:active:focus {
   background: #ffffff;
   width: 67%;
   height: 100px;
-  z-index: 1;
+  z-index: 5;
 }
 
 .btn-auth {

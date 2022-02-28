@@ -38,19 +38,27 @@
 
         <section class="landing-page-wrapper">
           <!-- About -->
-          <?php include 'about.php' ?>
+          <span id="home">
+            <?php include 'about.php' ?>
+          </span>
           <!-- End About section -->
 
           <!-- Venues -->
-          <?php include 'venues.php'?>
+          <span id="venues">
+            <?php include 'venues.php'?>
+          </span>
           <!-- End Venues -->
 
           <!-- Upcoming Events -->
-          <?php include 'events.php'?>
+          <span id="events">
+            <?php include 'events.php'?>
+          </span>
           <!-- End of events -->
 
           <!-- Contact Form -->
+         <span id="contacts">
           <?php include 'contact.php'?>
+         </span>
           <!-- End Contact Form -->
         </section>
 
