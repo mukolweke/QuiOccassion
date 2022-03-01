@@ -3,6 +3,8 @@ require_once "../scripts/db_conn.php";
 
 $notes = $notes_err = "";
 $main_err = $main_succ = "";
+$venue_id = null;
+$booking_name = $booking_email = $booking_contact = "";
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'confirm_venue'){
     // Validate notes
@@ -13,11 +15,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
         $notes = $input_notes;
     }
 
-    if(!empty($name_err)) {
+    if(!empty($notes_err)) {
         $main_err = "Please check the form again before submitting";
     }
-
-    if(empty($name_err)) {
+    
+    if(empty($notes_err)) {
         $sql = "UPDATE user_booking SET status= ?, notes=? WHERE id=?";
 
         if($stmt = $mysqli->prepare($sql)){
@@ -71,6 +73,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
     <div class="table-wrapper">
         <div class="table-header">
             <p class="table-subtitle">List of Booked Venues</p>
+
+            <a href="/dash/index.php?page=confirmed_venue_booking">Confirmed Bookings</a>
         </div>
         
         <?php include 'succ_err_view.php' ?>
@@ -78,7 +82,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
         <div class="table-list">
 
             <?php
-            $sql = "SELECT user_booking.*, venues.name as venue_name, venues.address as venue_address, venues.rate as venue_rate FROM user_booking INNER JOIN venues ON user_booking.venue_id=venues.id ORDER BY user_booking.id DESC";
+            $sql = "SELECT user_booking.*, venues.name as venue_name, venues.address as venue_address, venues.rate as venue_rate FROM user_booking INNER JOIN venues ON user_booking.venue_id=venues.id AND user_booking.status=0 ORDER BY user_booking.id DESC";
 
             $count = 1;
             
@@ -129,10 +133,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                                             echo '<button class="btn btn-transparent"><span class="text-success" style="font-size: 20px;" data-bs-toggle="modal" data-bs-target="#confirm_modal_'. $row['id'].'"><i class="far fa-check-square"></i></span></button>';
                                             echo '<button class="btn btn-transparent"><span class="text-danger" style="font-size: 20px;" data-bs-toggle="modal" data-bs-target="#cancel_modal_'. $row['id'].'"><i class="far fa-window-close"></i></span></button>';
                                         echo '</div>';
-                                    }else {
+                                    } else if($row['status'] == 1){
+                                        echo '<div class="badge rounded-pill bg-success" style="padding: 10px;">Create Event</div>';
+                                    } else if($row['status'] == 2){
                                         echo '';
                                     }
-                                    
                                 echo "</td>";
                                 
                             echo "</tr>";
@@ -146,7 +151,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                                         <div class="modal-body">
                                             <h5 class="modal-title" id="exampleModalLabel">Confirm <span style="color: var(--primary)"><?php echo $row['name']?></span> Venue Booking</h5>
 
-                                            <div class="mt-3">
+                                            <div class="mt-5">
                                                 <form action="<?php echo htmlspecialchars("/dash/index.php?page=venue_requests")?>" method="post">
                                                     <div class="mb-5">
                                                         <label for="exampleInputEmail1" class="form-label">Additional Confirmation Notes</label>

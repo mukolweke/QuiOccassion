@@ -1,66 +1,6 @@
 <?php
 require_once "../scripts/db_conn.php";
 
-$notes = $notes_err = "";
-$main_err = $main_succ = "";
-
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'confirm_event'){
-    // Validate notes
-    $input_notes = trim($_POST["notes"]);
-    if(empty($input_notes)){
-        $notes_err = "Please enter some confirmation notes.";     
-    } else{
-        $notes = $input_notes;
-    }
-
-    if(!empty($notes_err)) {
-        $main_err = "Please check the form again before submitting";
-    }
-
-    if(empty($notes_err)) {
-        $sql = "UPDATE user_booking SET status= ?, notes=? WHERE id=?";
-
-        if($stmt = $mysqli->prepare($sql)){
-            $stmt->bind_param("ssi", $param_status, $param_notes, $param_id);
-
-            $param_status = 1; // confirmed
-            $param_notes = $notes;
-            $param_id = $_POST['booking_id'];
-            
-            if($stmt->execute()) {
-                $main_succ = "User Booking details saved successfully";
-                ?><script type="text/javascript">
-                window.location = "/dash/index.php?page=event_requests";
-                </script><?php
-            } else{
-                $main_err = "Oops! Something went wrong. Please try again later.";
-            }
-        }
-    }
-}
-
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'cancel_booking'){
-    $id = $_POST['booking_id'];
-
-    $sql = "UPDATE user_booking SET status= ? WHERE id=?";
-
-    if($stmt = $mysqli->prepare($sql)){
-        $stmt->bind_param("si", $param_status, $param_id);
-
-        $param_status = 2; // Cancelled
-        $param_id = $_POST['booking_id'];
-        
-        if($stmt->execute()) {
-            $main_succ = "User Booking details saved successfully";
-            ?><script type="text/javascript">
-            window.location = "/dash/index.php?page=event_requests";
-            </script><?php
-        } else{
-            $main_err = "Oops! Something went wrong. Please try again later.";
-        }
-    }
-}
-
 ?>
 
 <div>
@@ -68,17 +8,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
 
     <div class="table-wrapper">
         <div class="table-header">
-            <p class="table-subtitle">List of Scheduled Events</p>
-
-            <a href="/dash/index.php?page=confirmed_event_booking">Confirmed Events</a>
+            <p class="table-subtitle">List of Confimed Scheduled Events</p>
         </div>
         
-        <?php include 'succ_err_view.php' ?>
-
         <div class="table-list">
 
             <?php
-            $sql = "SELECT user_booking.*, events.name as event_name, events.schedule as event_schedule, events.amount as event_amount, events.payment_type as event_payment_type, events.audience_capacity as event_audience_capacity  FROM user_booking INNER JOIN events ON user_booking.event_id=events.id AND user_booking.status=0 ORDER BY user_booking.id DESC";
+            $sql = "SELECT user_booking.*, events.name as event_name, events.schedule as event_schedule, events.amount as event_amount, events.payment_type as event_payment_type, events.audience_capacity as event_audience_capacity  FROM user_booking INNER JOIN events ON user_booking.event_id=events.id AND user_booking.status=1 ORDER BY user_booking.id DESC";
 
             $count = 1;
             
@@ -93,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                                 echo "<th>Capacity</th>";
                                 echo "<th>Status</th>";
                                 echo "<th>Created</th>";
-                                echo "<th>Action</th>";
+                                echo "<th>Notes</th>";
                             echo "</tr>";
                         echo "</thead>";
                         echo "<tbody>";
@@ -122,20 +58,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                                 }
 
                                 echo "<td>" . date("M d, Y A",strtotime($row['created_at'])) . "</td>";
+                                echo "<td>" . $row['notes'] . "</td>";
 
-                                echo "<td style=''>";
-                                    if($row['status'] == 0) {
-                                        echo '<div class="btn-group" role="group">';
-                                            echo '<button class="btn btn-transparent"><span class="text-success" style="font-size: 20px;" data-bs-toggle="modal" data-bs-target="#confirm_modal_'. $row['id'].'"><i class="far fa-check-square"></i></span></button>';
-                                            echo '<button class="btn btn-transparent"><span class="text-danger" style="font-size: 20px;" data-bs-toggle="modal" data-bs-target="#cancel_modal_'. $row['id'].'"><i class="far fa-window-close"></i></span></button>';
-                                        echo '</div>';
-                                    } else if($row['status'] == 1){
-                                        echo '<div class="badge rounded-pill bg-success" style="padding: 10px;">Create Event</div>';
-                                    } else if($row['status'] == 2){
-                                        echo '';
-                                    }
-                                echo "</td>";
-                                
                             echo "</tr>";
                             ?>
 

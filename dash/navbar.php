@@ -16,7 +16,7 @@
             <span><i class="far fa-building"></i></span>  Venue Requests
         </a>
         <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=reports">
-            <span><i class="fas fa-align-left"></i></span>  Reports
+            <span><i class="fas fa-file-alt"></i></span>  Reports
         </a>
         <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=users">
             <span><i class="fas fa-users"></i></span>  Users
