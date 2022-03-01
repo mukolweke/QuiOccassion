@@ -6,11 +6,14 @@
         <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=events">
             <span><i class="fas fa-calendar"></i></span>  Events
         </a>
+        <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=event_requests">
+            <span><i class="fa fa-glass-cheers"></i></span>  Event Requests
+        </a>
         <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=venues">
             <span><i class="fas fa-map-marked-alt"></i></span>  Venues
         </a>
-        <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=requests">
-            <span><i class="fas fa-align-left"></i></span>  Requests
+        <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=venue_requests">
+            <span><i class="far fa-building"></i></span>  Venue Requests
         </a>
         <a class="d-flex align-items-center sidenav-item" href="/dash/index.php?page=reports">
             <span><i class="fas fa-align-left"></i></span>  Reports

@@ -248,10 +248,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
     if(empty($name_err) && empty($description_err) && empty($schedule_date_err) && empty($amount_err) && empty($venue_id_err) && empty($banner_err) && empty($audience_capacity_err)){
         if(move_uploaded_file($tmp_img_name, '../assets/img/uploads/'.$banner_image_name)){
 
-            $sql = "INSERT INTO events (venue_id, name, description, schedule, type, audience_capacity, payment_type, amount, banner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO events (venue_id, name, description, schedule, type, audience_capacity, free_capacity, payment_type, amount, banner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             if($stmt = $mysqli->prepare($sql)){
-                $stmt->bind_param("sssssssss", $param_venue_id, $param_name, $param_description, $param_schedule, $param_type, $param_audience_capcity, $param_payment_type,  $param_amount, $param_banner);
+                $stmt->bind_param("ssssssssss", $param_venue_id, $param_name, $param_description, $param_schedule, $param_type, $param_audience_capcity, $param_free_capacity, $param_payment_type,  $param_amount, $param_banner);
 
                 // parameters
                 $param_name = $name;
@@ -260,6 +260,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 $param_type = $event_type;
                 $param_payment_type = $payment_type;
                 $param_audience_capcity = $audience_capacity;
+                $param_free_capacity = $audience_capacity;
                 $param_schedule = $schedule_date;
                 $param_amount = $amount;
                 $param_banner = $banner_image_name;

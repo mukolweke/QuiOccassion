@@ -52,7 +52,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
                                 echo "<td><a class='table-link' href='/dash/index.php?page=venue&id=". $row['venue_id'] ."'>".$row['venue_name']." </a></td>";
                                 echo "<td>" . 
                                     "<p><b>Event Name: </b>" . $row['name'] . "</p>" .
-                                    "<p><small><b>Event Type: </b>" . ($row['type'] == 1 ? 'Private' : 'Public') . "</small></p>" .
+                                    "<p><small><b>Event Type: </b><span style='color: var(--aux)'>" . ($row['type'] == 1 ? 'Private' : 'Public') . "</span></small></p>" .
                                     "<p><small><b>Fee: </b> ". ($row['payment_type']  == 1 ? 'Free' : 'Ksh '.number_format($row['amount'],2)) ." </small></p>" .
                                 "</td>";
                                 echo "<td>" . $row['description'] . "</td>";

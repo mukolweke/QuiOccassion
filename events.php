@@ -93,7 +93,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
         <div class="d-flex carousel-qui-inner" style="overflow-x: scroll;">
           <?php
 
-            $sql = "SELECT events.*, venues.name as venue_name FROM events INNER JOIN venues ON events.venue_id=venues.id ORDER BY events.id DESC";
+            $sql = "SELECT events.*, venues.name as venue_name FROM events INNER JOIN venues ON events.venue_id=venues.id AND events.type!=1 ORDER BY events.id DESC";
             $count = 1;
             
             if($result = $mysqli->query($sql)){
