@@ -14,6 +14,7 @@ $event_type = 0; // public;
 $banner_image_name = $tmp_img_name = "";
 $main_err = $main_succ = "";
 $formUrl = isset($_GET['id']) ? "/dash/index.php?page=manage_events&id=".$_GET['id'] : "/dash/index.php?page=manage_events" ;
+$user_id = NULL;
 
 // get event on edit
 if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
@@ -126,6 +127,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
    $payment_type = $input_payment_status;
     // update the event type
    $event_type = isset($_POST['event_type']) ?trim($_POST["event_type"]) : 0 ;
+
+   $user_id = $_POST['user_id'];
 
     // Check input errors before inserting in database
     if(empty($name_err) && empty($description_err) && empty($schedule_date_err) && empty($amount_err) && empty($venue_id_err) && empty($banner_err) && empty($audience_capacity_err)){
@@ -248,10 +251,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
     if(empty($name_err) && empty($description_err) && empty($schedule_date_err) && empty($amount_err) && empty($venue_id_err) && empty($banner_err) && empty($audience_capacity_err)){
         if(move_uploaded_file($tmp_img_name, '../assets/img/uploads/'.$banner_image_name)){
 
-            $sql = "INSERT INTO events (venue_id, name, description, schedule, type, audience_capacity, free_capacity, payment_type, amount, banner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO events (venue_id, name, description, schedule, type, audience_capacity, free_capacity, payment_type, amount, banner, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             if($stmt = $mysqli->prepare($sql)){
-                $stmt->bind_param("ssssssssss", $param_venue_id, $param_name, $param_description, $param_schedule, $param_type, $param_audience_capcity, $param_free_capacity, $param_payment_type,  $param_amount, $param_banner);
+                $stmt->bind_param("sssssssssss", $param_venue_id, $param_name, $param_description, $param_schedule, $param_type, $param_audience_capcity, $param_free_capacity, $param_payment_type,  $param_amount, $param_banner, $param_user_id);
 
                 // parameters
                 $param_name = $name;
@@ -264,6 +267,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 $param_schedule = $schedule_date;
                 $param_amount = $amount;
                 $param_banner = $banner_image_name;
+                $param_user_id = $user_id;
 
                 if($stmt->execute()){
                     ?><script type="text/javascript">
@@ -387,6 +391,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                         <input type="number" step="any" min="0" class="form-control text-right <?php echo (!empty($audience_capacity_err)) ? 'is-invalid' : ''; ?>" name="audience_capacity" id ='audience_capacity'  value="<?php echo $audience_capacity ?? 0; ?>" autocomplete="off">
 
                         <span class="invalid-feedback"><?php echo $audience_capacity_err;?></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">User ID</label>
+                        <input type="text" class="form-control" name="user_id" value="<?php echo $user_id; ?>" >
+                        <small class="form-text text-muted">Please provide a user id if user exists</small>
                     </div>
                     
                     <input name="action" value="<?php echo isset($_GET['id']) ? 'update' : 'save';?>" class="hidden">

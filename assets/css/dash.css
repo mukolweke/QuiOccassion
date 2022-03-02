@@ -140,3 +140,7 @@
   background-color: var(--primary);
   border-color: var(--primary);
 }
+
+.card-block {
+  padding: 20px;
+}
