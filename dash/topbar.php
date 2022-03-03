@@ -19,6 +19,9 @@
             id="navbarNav"
         >
             <ul class="navbar-nav">
+                <li class="nav-item" style="margin-right: 10px;">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
                 <li class="nav-item">
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
