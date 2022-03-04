@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light navbar-dash">
     <div class="container-fluid" style="margin-right: 60px;">
         <div>
-            <h3 style="color: var(--primary);">Qui Event Managest System</h3>
+            <h3 style="color: var(--primary);">Qui Occassions</h3>
         </div>
         <button
               class="navbar-toggler"

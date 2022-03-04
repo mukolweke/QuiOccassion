@@ -110,7 +110,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'update' && $_POS
                 </body>
                 </html>";
             
-                mail('michaelolukaka@gmail.com', $subject, $message, $headers);
+                mail('shannellenjeru@gmail.com', $subject, $message, $headers);
                 ?>
                 <script type="text/javascript">
                     window.location = "/dash/index.php?page=profile";

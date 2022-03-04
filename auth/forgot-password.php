@@ -45,7 +45,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </body>
     </html>";
   
-    mail('michaelolukaka@gmail.com', $subject, $message, $headers);
+    mail('shannellenjeru@gmail.com', $subject, $message, $headers);
 
     $main_succ = "Email Sent Successfully Please check";
   }

@@ -86,7 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
           </body>
           </html>";
 
-          mail('michaelolukaka@gmail.com', $subject, $message, $headers);
+          mail('shannellenjeru@gmail.com', $subject, $message, $headers);
           //redirect
           header("location: login.php");
         } else{

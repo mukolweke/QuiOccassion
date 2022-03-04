@@ -1,3 +1,3 @@
 <footer class="footer">
-    <p>&copy; 2022. Developed by <span class="creator">Shannelle</span></p>
+    <p>Qui Occassions &copy; 2022. Developed by <span class="creator">Shannelle Njeru</span></p>
 </footer>

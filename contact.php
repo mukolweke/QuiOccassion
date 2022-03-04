@@ -42,7 +42,7 @@ if (isset($_POST['contact_us_email'])) {
   </body>
   </html>";
   
-  if (mail('michaelolukaka@gmail.com', $subject, $message, $headers)) {
+  if (mail('shannellenjeru@gmail.com', $subject, $message, $headers)) {
    echo "Send Sucessfully, Good Luck Email sent";
   }else{
    echo "sorry, Failed to send email. Please try again later";

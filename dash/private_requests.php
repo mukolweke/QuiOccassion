@@ -42,7 +42,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 </body>
                 </html>";
             
-                mail('michaelolukaka@gmail.com', $subject, $message, $headers);
+                mail('shannellenjeru@gmail.com', $subject, $message, $headers);
 
                 ?><script type="text/javascript">
                 window.location = "/dash/index.php?page=private_requests";
@@ -80,7 +80,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
             </body>
             </html>";
         
-            mail('michaelolukaka@gmail.com', $subject, $message, $headers);
+            mail('shannellenjeru@gmail.com', $subject, $message, $headers);
 
             ?><script type="text/javascript">
             window.location = "/dash/index.php?page=private_requests";

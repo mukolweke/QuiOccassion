@@ -66,8 +66,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                 </body>
                 </html>";
             
-                mail('michaelolukaka@gmail.com', $subject, $messageUser, $headers); // notification sent to user
-                mail('michaelolukaka@gmail.com', $subject, $messageAdmin, $headers); // notification sent to admin
+                mail('shannellenjeru@gmail.com', $subject, $messageUser, $headers); // notification sent to user
+                mail('shannellenjeru@gmail.com', $subject, $messageAdmin, $headers); // notification sent to admin
 
                 ?><script type="text/javascript">
                 window.location = "/dash/index.php?page=my_requests";
