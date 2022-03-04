@@ -11,25 +11,13 @@
         <span>THROW AN EVENT YOU'LL</span> <br />
         <span>NEVER FORGET</span>
       </h1>
-
-      <p class="lh-lg m-0" style="width: 400px">
-        We treat your event like a Business with a comprehensive plan to
-        ensure that you event is delivered on time and on budget.
-      </p>
     </div>
 
     <div class="services d-flex align-items-start">
       <div class="d-flex align-items-start services-item">
-        <figure class="services-item-img">
-          <img
-            width="70"
-            height="70"
-            src="https://secureservercdn.net/198.71.233.33/i6c.6ec.myftpupload.com/wp-content/uploads/2020/12/Group-68.png?time=1643261167"
-            class="attachment-full size-full"
-            alt=""
-            loading="lazy"
-          />
-        </figure>
+        <div class="services-item-icon">
+          <i class="fas fa-pencil-ruler"></i>
+        </div>
         <div>
           <h2 class="services-item-title text-uppercase">
             Event Design
@@ -44,16 +32,9 @@
       </div>
 
       <div class="d-flex align-items-start services-item">
-        <figure class="services-item-img">
-          <img
-            width="70"
-            height="70"
-            src="https://secureservercdn.net/198.71.233.33/i6c.6ec.myftpupload.com/wp-content/uploads/2020/12/Group-69.png?time=1643261167"
-            class="attachment-full size-full"
-            alt="planning"
-            loading="lazy"
-          />
-        </figure>
+        <div class="services-item-icon">
+          <i class="fas fa-ruler-combined"></i>
+        </div>
         <div>
           <h2 class="services-item-title text-uppercase">Planning</h2>
 
@@ -66,16 +47,9 @@
       </div>
 
       <div class="d-flex align-items-start services-item">
-        <figure class="services-item-img">
-          <img
-            width="70"
-            height="70"
-            src="https://secureservercdn.net/198.71.233.33/i6c.6ec.myftpupload.com/wp-content/uploads/2020/12/Group-70.png?time=1643261167"
-            class="attachment-full size-full"
-            alt="logistics"
-            loading="lazy"
-          />
-        </figure>
+        <div class="services-item-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
         <div>
           <h2 class="services-item-title text-uppercase">Logistics</h2>
 
@@ -89,3 +63,5 @@
     </div>
   </div>
 </div>
+
+<?php include './dash/succ_err_view.php' ?>

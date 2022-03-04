@@ -68,7 +68,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
             require_once "../scripts/db_conn.php";
 
             $venue_id = $_GET['id'];
-            $sql = "SELECT events.*, venues.name as venue_name FROM events INNER JOIN venues ON events.venue_id=venues.id WHERE venue_id=$venue_id ORDER BY events.id DESC";
+            $sql = "SELECT events.* FROM events INNER JOIN venues ON events.venue_id=venues.id WHERE venue_id=$venue_id ORDER BY events.id DESC";
             $count = 1;
             
             if($result = $mysqli->query($sql)){
@@ -78,7 +78,6 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                             echo "<tr>";
                                 echo "<th>#</th>";
                                 echo "<th>Schedule</th>";
-                                echo "<th>Venue</th>";
                                 echo "<th>Event Info</th>";
                                 echo "<th>Description</th>";
                             echo "</tr>";
@@ -88,7 +87,6 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                             echo "<tr>";
                                 echo "<td>" . $count++ . "</td>";
                                 echo "<td>" . date("M d, Y A",strtotime($row['schedule'])) . "</td>";
-                                echo "<td>" . $row['venue_name'] . "</td>";
                                 echo "<td>" . 
                                     "<p><b>Event Name: </b>" . $row['name'] . "</p>" .
                                     "<p><small><b>Event Type: </b>" . ($row['type'] == 1 ? 'Private' : 'Public') . "</small></p>" .

@@ -50,11 +50,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                   if($stmt->fetch()){
                       if(password_verify($password, $hashed_password)){
                           // Password is correct, so start a new session
-                          session_start();
+                          // session_start();
                           
                           // Store data in session variables
                           $_SESSION["loggedin"] = true;
-                          $_SESSION["is_admin"] = $email == 'admin@gmail.com';
+                          $_SESSION["is_admin"] = strpos($email, 'admin') !== false;
                           $_SESSION["id"] = $id;
                           $_SESSION["full_name"] = $full_name;
                           

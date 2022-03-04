@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light navbar-dash">
     <div class="container-fluid" style="margin-right: 60px;">
         <div>
-            <h3 style="color: var(--primary);">Qui Event Managest System</h3>
+            <h3 style="color: var(--primary);">Qui Occassions</h3>
         </div>
         <button
               class="navbar-toggler"
@@ -19,6 +19,9 @@
             id="navbarNav"
         >
             <ul class="navbar-nav">
+                <li class="nav-item" style="margin-right: 10px;">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
                 <li class="nav-item">
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

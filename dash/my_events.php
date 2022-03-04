@@ -1,25 +1,6 @@
 <?php
 require_once "../scripts/db_conn.php";
 
-if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'delete'){
-    $id = $_POST['event_id'];
-
-    if($delete = $mysqli->query("DELETE FROM events where id = " . $id)){
-        $main_succ = "Event record deleted successfully";
-    }else {
-        $main_err = "Ooops! Deletion process was not successful";
-    }
-}
-
-if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'mark_complete'){
-    $id = $_POST['event_id'];
-
-    if($delete = $mysqli->query("UPDATE events SET completed=1 where id = " . $id)){
-        $main_succ = "Event record updated successfully";
-    }else {
-        $main_err = "Ooops! Update process was not successful";
-    }
-}
 ?>
 
 <div>
@@ -27,8 +8,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'mark_complete'){
 
     <div class="table-wrapper">
         <div class="table-header">
-            <p class="table-subtitle">List of Scheduled Events</p>
-            <a href="/dash/index.php?page=manage_events" class="btn btn-primary"><span><i class="fas fa-plus"></i></span> Schedule an Event</a>
+            <p class="table-subtitle">List of My Scheduled Events</p>
         </div>
         
         <?php include 'succ_err_view.php' ?>
@@ -36,9 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'mark_complete'){
         <div class="table-list">
 
             <?php
-            require_once "../scripts/db_conn.php";
-
-            $sql = "SELECT events.*, venues.name as venue_name FROM events INNER JOIN venues ON events.venue_id=venues.id AND events.completed=0 ORDER BY events.id DESC";
+            $sql = "SELECT events.*, venues.name as venue_name FROM events INNER JOIN venues ON events.venue_id=venues.id AND events.completed=0 AND events.user_id=".$_SESSION['id']." ORDER BY events.id DESC";
             $count = 1;
             $date_now = date("d/m/Y");
 
@@ -52,7 +30,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'mark_complete'){
                                 echo "<th>Venue</th>";
                                 echo "<th>Event Info</th>";
                                 echo "<th>Description</th>";
-                                echo "<th>Action</th>";
+                                echo "<th>Status</th>";
                             echo "</tr>";
                         echo "</thead>";
                         echo "<tbody>";
@@ -67,24 +45,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'mark_complete'){
                                     "<p><small><b>Fee: </b> ". ($row['payment_type']  == 1 ? 'Free' : 'Ksh '.number_format($row['amount'],2)) ." </small></p>" .
                                 "</td>";
                                 echo "<td>" . $row['description'] . "</td>";
-                                echo "<td style=''>";
-                                    echo '<div class="btn-group" role="group">';
-                                        if($date_now > $row['schedule']) {
-                                            echo '<form method="post" action="/dash/index.php?page=events">
-                                            <input name="event_id" value=' . $row['id']. ' class="hidden">
-                                            <input name="action" value="mark_complete" class="hidden">
-                                            <button type="submit" class="btn btn-transparent btn-sm">Mark Complete</button>
-                                            </form>';
-                                        }else {
-                                            echo '<a href="/dash/index.php?page=manage_events&id='. $row['id'] .'" class="btn btn-transparent"><i class="fas fa-edit"></i></a>';
-                                            echo '<form method="post" action="/dash/index.php?page=events">
-                                            <input name="event_id" value=' . $row['id']. ' class="hidden">
-                                            <input name="action" value="delete" class="hidden">
-                                            <button type="submit" class="btn btn-transparent btn-sm"><i class="fas fa-trash"></i></button>
-                                            </form>';
-                                        }
-                                    echo '</div>';
-                                echo "</td>";
+                                if($row['completed'] == 1) { // status 1
+                                    echo "<td><span class='badge rounded-pill bg-success'>Completed</span></td>";
+                                }else { // status 0
+                                    echo "<td><span class='badge rounded-pill bg-info'>Ongoing</span></td>";
+                                }
                             echo "</tr>";
                         }
                         echo "</tbody>";                            

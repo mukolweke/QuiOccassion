@@ -49,6 +49,12 @@
   margin-top: 20px;
   background: #ffffff;
   padding: 20px;
+  position: relative;
+}
+
+.accordion-body .table-wrapper {
+  margin-top: 0;
+  padding: 0;
 }
 
 .table-wrapper .table-header {
@@ -58,15 +64,33 @@
   margin-bottom: 16px;
 }
 
+.accordion-body .table-wrapper .table-list {
+  height: 600px;
+  overflow: auto;
+}
+
 .table-wrapper .table-header .table-subtitle,
 .table-wrapper .table-list table th {
   font-weight: 700;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background-color: var(--primary);
+}
+
+.accordion-button:focus {
+  border-color: var(--primary);
+  box-shadow: none;
 }
 
 .table-wrapper .table-list table thead {
   background: var(--primary-lighter);
   color: var(--primary-darker);
   font-size: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .table-wrapper .table-list table tr {
@@ -79,6 +103,12 @@
   border-radius: 8px;
 }
 
+.table_banner_img {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 8px;
+}
+
 .table_img img {
   object-fit: contain;
 }
@@ -86,6 +116,7 @@
 .form_body {
   max-width: 600px;
   margin-top: 50px;
+  width: 100%;
 }
 
 .w-280px {
@@ -108,4 +139,8 @@
 .form-check-input:checked {
   background-color: var(--primary);
   border-color: var(--primary);
+}
+
+.card-block {
+  padding: 20px;
 }
