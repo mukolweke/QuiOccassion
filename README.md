@@ -28,6 +28,13 @@ Make sure the db_conn.php file is updated to your database credentials,
 Run command php -S 127.0.0.1:8000 on terminal and go to browser.
 ```
 
+### ADMIN Credentials
+
+```bash
+Email: admin@gmail.com
+Password: password
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
