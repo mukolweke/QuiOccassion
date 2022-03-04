@@ -12,14 +12,13 @@
             require_once "../scripts/db_conn.php";
 
             $sql = "SELECT * FROM users ORDER BY id DESC";
-            $count = 1;
             
             if($result = $mysqli->query($sql)){
                 if($result->num_rows > 0){
                     echo '<table class="table">';
                         echo "<thead>";
                             echo "<tr>";
-                                echo "<th>#</th>";
+                                echo "<th>ID</th>";
                                 echo "<th>Full Name</th>";
                                 echo "<th>Email</th>";
                                 echo "<th>Created</th>";
@@ -29,7 +28,7 @@
                         echo "<tbody>";
                         while($row = $result->fetch_array()){
                             echo "<tr>";
-                                echo "<td>" . $count++ . "</td>";
+                                echo "<td>" . $row['id'] . "</td>";
                                 echo "<td>" . $row['full_name'] . "</td>";
                                 echo "<td>" . $row['email'] . "</td>";
                                 echo "<td>" . date("M d, Y A",strtotime($row['created_at'])) . "</td>";

@@ -1,50 +1,46 @@
-<?php
+<?php 
 require_once "../scripts/db_conn.php";
 
 ?>
 
 <div>
-    <h3 class="table-title">Requests</h3>
+    <h3 class="table-title">Private Requests</h3>
 
     <div class="table-wrapper">
         <div class="table-header">
-            <p class="table-subtitle">List of My Requests</p>
-
-            <div>
-                <a href="/dash/index.php?page=my_requests_history" style="margin-right: 10px;" class="text-danger"> History</a>
-
-                <a href="/dash/index.php?page=manage_my_requests" class="btn btn-primary"><span><i class="fas fa-plus"></i></span> Request for an Event</a>
-            </div>
+            <p class="table-subtitle">List of Confirmed Private Requests</p>
         </div>
         
-        <?php include 'succ_err_view.php' ?>
-
         <div class="table-list">
 
             <?php
-            $sql = "SELECT user_requests.*, users.full_name as user_name FROM user_requests INNER JOIN users ON user_requests.user_id=users.id AND user_requests.status=0 AND user_requests.user_id=".$_SESSION['id']." ORDER BY user_requests.id DESC";
-            $count = 1;
-            $date_now = date("d/m/Y");
+            $sql = "SELECT user_requests.*, users.full_name as full_name, users.email as email FROM user_requests INNER JOIN users ON user_requests.user_id=users.id AND user_requests.status=1 ORDER BY user_requests.id DESC";
 
+            $count = 1;
+            
             if($result = $mysqli->query($sql)){
                 if($result->num_rows > 0){
                     echo '<table class="table">';
                         echo "<thead>";
                             echo "<tr>";
                                 echo "<th>#</th>";
-                                echo "<th>Name</th>";
-                                echo "<th>Description</th>";
+                                echo "<th>User Info</th>";
+                                echo "<th>Event Description</th>";
                                 echo "<th>Status</th>";
-                                echo "<th>Scheduled</th>";
                                 echo "<th>Created</th>";
+                                echo "<th>Action</th>";
                             echo "</tr>";
                         echo "</thead>";
                         echo "<tbody>";
                         while($row = $result->fetch_array()){
                             echo "<tr>";
                                 echo "<td>" . $count++ . "</td>";
-                                echo "<td>" . $row['user_name'] . "</td>";
-                                echo "<td>" . $row['description'] . "</td>";
+                                echo "<td>" . 
+                                    "<p><b>Name: </b>" . $row['full_name'] . "</p>" .
+                                    "<p><small><b>Email: </b>" . $row['email'] . "</small></p>" .
+                                "</td>";
+                                echo "<td style='width: 500px;'>". $row['description'] ."</td>";
+
                                 if($row['status'] == 1) { // status 1
                                     echo "<td><span class='badge rounded-pill bg-success'>Confirmed</span></td>";
                                 }elseif ($row['status'] == 2) { // status 2
@@ -52,8 +48,9 @@ require_once "../scripts/db_conn.php";
                                 }else { // status 0
                                     echo "<td><span class='badge rounded-pill bg-info'>Verification</span></td>";
                                 }
-                                echo "<td>" . date("M d, Y A",strtotime($row['schedule_date'])) . "</td>";
+
                                 echo "<td>" . date("M d, Y A",strtotime($row['created_at'])) . "</td>";
+
                             echo "</tr>";
                         }
                         echo "</tbody>";                            
@@ -67,16 +64,7 @@ require_once "../scripts/db_conn.php";
                 echo '<div class="alert alert-danger"><em>Oops! Something went wrong. Please try again later.</em></div>';
             }
             
-            // Close connection
-            $mysqli->close();
             ?>
-
         </div>
     </div>
 </div>
-
-<script>
-$('#datepicker').datepicker({
-    uiLibrary: 'bootstrap'
-});
-</script>

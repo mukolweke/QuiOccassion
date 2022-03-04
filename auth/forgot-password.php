@@ -1,3 +1,56 @@
+<?php
+require_once "../scripts/db_conn.php";
+
+$email = $email_err = $full_name = $main_succ = "";
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+ 
+  // email validation
+  if(empty(trim($_POST["email"]))) {
+    $email_err = "Please enter an email";
+  }else if (!filter_var(trim($_POST["email"]), FILTER_VALIDATE_EMAIL)) { // src: w3schools
+    $email_err = "Please enter a valid email address";
+  }else {
+    // Checking if email exists
+    if($stmt = $mysqli->prepare("SELECT * FROM users WHERE email = ?")){
+        $stmt->bind_param("s", $param_email);
+        $param_email = trim($_POST["email"]);
+        if($stmt->execute()){
+            $result = $stmt->get_result();
+            if($result->num_rows == 1){
+              $row = $result->fetch_array(MYSQLI_ASSOC);
+                
+              $full_name = $row["full_name"];
+              $email = $row["email"];
+            } else{
+              $email_err = "The email provided doesn't exists in our records please register to continue";
+            }
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
+        }
+        $stmt->close();
+    }
+  }
+
+  if(empty($email_err)) {
+    $subject = 'Reset '. ucwords($full_name) . ' Password';
+
+    $headers = "From: webmaster@quioccassions.com" . "\r\n" . "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $message = "<html>
+    <body>
+      <p> Hello Admin, </p>
+      <p> Please reset my password.</p>
+      <p>Email: " . $email . "</p>
+    </body>
+    </html>";
+  
+    mail('michaelolukaka@gmail.com', $subject, $message, $headers);
+
+    $main_succ = "Email Sent Successfully Please check";
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -73,19 +126,27 @@
             </a>
           </div>
 
-          <form class="auth-form">
+          <form class="auth-form" method="post" action="<?php echo htmlspecialchars("/auth/forgot-password.php"); ?>">
+            <?php 
+              if(!empty($main_err)) {
+                  echo '<div class="alert alert-danger"><em>' . $main_err .'</em></div>';
+              }
+
+              if(!empty($main_succ)) {
+                  echo '<div class="alert alert-success"><em>' . $main_succ .'</em></div>';
+              }
+            ?>
             <div class="mb-5">
               <label for="email" class="form-label">Email</label>
               <input
                 style="padding: 10px"
-                type="email"
-                class="form-control"
+                type="text"
+                class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>"
                 id="email"
-                aria-describedby="forgotHelp"
+                name="email"
+                value="<?php echo $email; ?>"
               />
-              <div id="forgotHelp" class="mt-3 form-text">
-                You will receive a reset link on email
-              </div>
+              <span class="invalid-feedback"><?php echo $email_err; ?></span>
             </div>
             <div class="text-end">
               <button type="submit" class="btn btn-primary btn-auth" style="">

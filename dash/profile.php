@@ -98,6 +98,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['action'] == 'update' && $_POS
             $param_id = $_SESSION['id'];
            
             if($stmt->execute()){
+                $subject = 'Reset '. ucwords($full_name) . ' Password Successfully';
+
+                $headers = "From: webmaster@quioccassions.com" . "\r\n" . "MIME-Version: 1.0" . "\r\n";
+                $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+                $message = "<html>
+                <body>
+                <p> Hello, ". $name." </p>
+                <p> Your password has been Successfully reset temporarily to <b>". $new_password. "</b>.</p>
+                <p>Please login and head to your profile to reset.</p>
+                </body>
+                </html>";
+            
+                mail('michaelolukaka@gmail.com', $subject, $message, $headers);
                 ?>
                 <script type="text/javascript">
                     window.location = "/dash/index.php?page=profile";

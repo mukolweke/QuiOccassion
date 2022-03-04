@@ -1,8 +1,9 @@
 <?php
 require_once "../scripts/db_conn.php";
 
-$schedule_date = $description = $payment_type = $event_type = "" ;
-$schedule_date_err = $description_err = $payment_type_err = $event_type_err = "";
+$schedule_date = $description = $payment_type = $event_type = $audience_capacity = "" ;
+$schedule_date_err = $description_err = $payment_type_err = $event_type_err = $audience_capacity_err = "";
+$amount = $amount_err =  "" ; $event_type = $payment_type = 1; $payment_type_err = $event_type_err = "";
 $main_err = $main_succ = "";
 $formUrl = "/dash/index.php?page=manage_my_requests" ;
 $user_id = $status = NULL;
@@ -26,20 +27,48 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
         $description = $input_description;
     }
 
+     // Validate capacity
+     $input_capacity = trim($_POST["audience_capacity"]);
+     if(empty($input_capacity)){
+         $audience_capacity = "Please enter an description.";     
+     } else{
+         $audience_capacity = $input_capacity;
+     }
+
     // Check input errors before inserting in database
     if(empty($description_err) && empty($schedule_date_err)){
-        $sql = "INSERT INTO user_requests (user_id, description, status, schedule_date) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO user_requests (user_id, description, schedule_date) VALUES (?, ?, ?)";
 
         if($stmt = $mysqli->prepare($sql)){
-            $stmt->bind_param("ssss", $param_user_id, $param_description, $param_status, $param_schedule_date);
+            $stmt->bind_param("sss", $param_user_id, $param_description, $param_schedule_date);
 
             // parameters
-            $param_description = $description;
-            $param_schedule = $schedule_date;
+            $param_description = $description . ", <br>Capacity: " . $audience_capacity . ", <br>Payment: ". ($payment_type == 1 ? "Free" : "Payable") . ", <br>Amount: " . $_POST['amount'].
+                ", <br>Event Type: " . ($event_type == 1 ? 'Public' : 'Private');
+            $param_schedule_date = $schedule_date;
             $param_user_id = $_SESSION['id'];
-            $param_status = 0;
 
             if($stmt->execute()){
+                $subject = 'Event Request Successfully Sent';
+
+                $headers = "From: webmaster@quioccassions.com" . "\r\n" . "MIME-Version: 1.0" . "\r\n";
+                $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+                $messageUser = "<html>
+                <body>
+                <p> Hello, ". $_SESSION['full_name']." </p>
+                <p> Your event request has been successfuly submitted to the event manager. They will be in touch within 24hrs</p>
+                </body>
+                </html>";
+                $messageAdmin = "<html>
+                <body>
+                <p> Hello, </p>
+                <p> This is to notify you that " . $_SESSION['full_name']. ", has submitted an event request, please head to dashboard to confirm or cancel request.</p>
+                </body>
+                </html>";
+            
+                mail('michaelolukaka@gmail.com', $subject, $messageUser, $headers); // notification sent to user
+                mail('michaelolukaka@gmail.com', $subject, $messageAdmin, $headers); // notification sent to admin
+
                 ?><script type="text/javascript">
                 window.location = "/dash/index.php?page=my_requests";
                 </script><?php

@@ -245,7 +245,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
     // update the payment status
    $payment_type = $input_payment_status;
     // update the event type
-   $event_type = isset($_POST['event_type']) ?trim($_POST["event_type"]) : 0 ;
+   $event_type = isset($_POST['event_type']) ? trim($_POST["event_type"]) : 0 ;
+   // update user id;
+   $user_id = isset($_POST['user_id']) ? trim($_POST['user_id']) : null;
 
     // Check input errors before inserting in database
     if(empty($name_err) && empty($description_err) && empty($schedule_date_err) && empty($amount_err) && empty($venue_id_err) && empty($banner_err) && empty($audience_capacity_err)){
@@ -394,7 +396,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">User ID</label>
+                        <label class="form-label">Requested By(user id)</label>
                         <input type="text" class="form-control" name="user_id" value="<?php echo $user_id; ?>" >
                         <small class="form-text text-muted">Please provide a user id if user exists</small>
                     </div>

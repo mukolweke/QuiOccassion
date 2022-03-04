@@ -70,7 +70,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
         <div class="table-header">
             <p class="table-subtitle">List of Scheduled Events</p>
 
-            <a href="/dash/index.php?page=confirmed_event_booking">Confirmed Events</a>
+            <div>
+                <a class="text-success" href="/dash/index.php?page=confirmed_event_booking">Confirmed Events</a>
+                <a class="text-danger" href="/dash/index.php?page=canceled_event_booking">Cancelled Events</a>
+            </div>
         </div>
         
         <?php include 'succ_err_view.php' ?>

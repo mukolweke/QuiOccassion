@@ -11,6 +11,10 @@
                 <li class="list-group-item">
                     <a style="text-decoration:none;color: var(--aux);font-weight: 700;" href="/dash/index.php?page=venue_requests">Venue Requests</a>
                 </li>
+
+                <li class="list-group-item">
+                    <a style="text-decoration:none;color: var(--aux);font-weight: 700;" href="/dash/index.php?page=private_requests">Private Requests</a>
+                </li>
             </ul>
         </div>
 

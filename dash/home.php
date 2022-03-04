@@ -9,13 +9,13 @@
         $sql1 = "SELECT COUNT(*) AS todays_user_total FROM `users` WHERE `created_at` >= DATE_SUB(DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY), INTERVAL 1 MONTH) AND `created_at` < DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY)";
 
         // New Event Booking
-        $sql2 = "SELECT COUNT(*) AS todays_event_total FROM `user_booking` WHERE `type`='event' AND `status`= 0 AND `created_at` >= DATE_SUB(DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY), INTERVAL 1 MONTH) AND `created_at` < DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY)";
+        $sql2 = "SELECT COUNT(*) AS todays_event_total FROM `user_booking` WHERE `type`='event' AND `status`= 0 AND `created_at` >= DATE_SUB(DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY), INTERVAL 1 MONTH) AND `created_at` < DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 7 DAY)";
 
         // New Venue Booking
-        $sql3 = "SELECT COUNT(*) AS todays_venue_total FROM `user_booking` WHERE `type`='venue' AND `status`= 0 AND `created_at` >= DATE_SUB(DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY), INTERVAL 1 MONTH) AND `created_at` < DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY)";
+        $sql3 = "SELECT COUNT(*) AS todays_venue_total FROM `user_booking` WHERE `type`='venue' AND `status`= 0 AND `created_at` >= DATE_SUB(DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY), INTERVAL 1 MONTH) AND `created_at` < DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 7 DAY)";
 
         // New User Requests
-        $sql4 = "SELECT COUNT(*) AS todays_requests_total FROM `user_requests` WHERE `status`=0 AND `created_at` >= DATE_SUB(DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY), INTERVAL 1 MONTH) AND `created_at` < DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY)";
+        $sql4 = "SELECT COUNT(*) AS todays_requests_total FROM `user_requests` WHERE `status`=0 AND `created_at` >= DATE_SUB(DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 1 DAY), INTERVAL 1 MONTH) AND `created_at` < DATE_SUB(CURDATE(), INTERVAL DAY(CURDATE()) - 7 DAY)";
 
         if($stmt = $mysqli->prepare($sql1)){
             if($stmt->execute()){

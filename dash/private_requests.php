@@ -6,7 +6,7 @@ $main_err = $main_succ = "";
 $venue_id = null;
 $booking_name = $booking_email = $booking_contact = "";
 
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'confirm_venue'){
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'confirm_request'){
     // Validate notes
     $input_notes = trim($_POST["notes"]);
     if(empty($input_notes)){
@@ -18,22 +18,36 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
     if(!empty($notes_err)) {
         $main_err = "Please check the form again before submitting";
     }
-    
+
     if(empty($notes_err)) {
-        $sql = "UPDATE user_booking SET status=?, notes=? WHERE id=?";
+        $sql = "UPDATE user_requests SET status=?, notes=? WHERE id=?";
 
         if($stmt = $mysqli->prepare($sql)){
             $stmt->bind_param("ssi", $param_status, $param_notes, $param_id);
 
             $param_status = 1; // confirmed
             $param_notes = $notes;
-            $param_id = $_POST['booking_id'];
-            
+            $param_id = $_POST['request_id'];
+
             if($stmt->execute()) {
+                $subject = 'Event Request Confirmed';
+
+                $headers = "From: webmaster@quioccassions.com" . "\r\n" . "MIME-Version: 1.0" . "\r\n";
+                $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+                $message = "<html>
+                <body>
+                <p> Hello </p>
+                <p> Your private request is approved and an event is created for it</p>
+                <p>Please login and check the details and status of your event. Thank you.</p>
+                </body>
+                </html>";
+            
+                mail('michaelolukaka@gmail.com', $subject, $message, $headers);
+
                 ?><script type="text/javascript">
-                window.location = "/dash/index.php?page=venue_requests";
+                window.location = "/dash/index.php?page=private_requests";
                 </script><?php
-                $main_succ = "User Booking details saved successfully";
+                $main_succ = "User requests approved successfully";
                 exit();
             } else{
                 $main_err = "Oops! Something went wrong. Please try again later.";
@@ -42,22 +56,36 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
     }
 }
 
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'cancel_booking'){
-    $id = $_POST['booking_id'];
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] == 'cancel_request'){
+    $id = $_POST['request_id'];
 
-    $sql = "UPDATE user_booking SET status=? WHERE id=?";
+    $sql = "UPDATE user_requests SET status=? WHERE id=?";
 
     if($stmt = $mysqli->prepare($sql)){
         $stmt->bind_param("si", $param_status, $param_id);
 
         $param_status = 2; // Cancelled
-        $param_id = $_POST['booking_id'];
+        $param_id = $id;
         
         if($stmt->execute()) {
+            $subject = 'Event Request Cancelled';
+
+            $headers = "From: webmaster@quioccassions.com" . "\r\n" . "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $message = "<html>
+            <body>
+            <p> Hello </p>
+            <p> Your private request has been cancelled.</p>
+            <p> If you have further questions please don't hesitate but to call us. Thank you.</p>
+            </body>
+            </html>";
+        
+            mail('michaelolukaka@gmail.com', $subject, $message, $headers);
+
             ?><script type="text/javascript">
-            window.location = "/dash/index.php?page=venue_requests";
+            window.location = "/dash/index.php?page=private_requests";
             </script><?php
-            $main_succ = "User Booking details saved successfully";
+            $main_succ = "User requests cancelled successfully";
             exit();
         } else{
             $main_err = "Oops! Something went wrong. Please try again later.";
@@ -68,15 +96,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
 ?>
 
 <div>
-    <h3 class="table-title">Venue Requests</h3>
+    <h3 class="table-title">Private Requests</h3>
 
     <div class="table-wrapper">
         <div class="table-header">
-            <p class="table-subtitle">List of Booked Venues</p>
-
             <div>
-                <a class="text-success" href="/dash/index.php?page=confirmed_venue_booking">Confirmed Bookings</a>
-                <a class="text-danger" href="/dash/index.php?page=canceled_venue_booking">Cancelled Bookings</a>
+                <a class="text-success" href="/dash/index.php?page=confirmed_private_requests">Confirmed Requests</a>
+                <a class="text-danger" href="/dash/index.php?page=canceled_private_requests">Cancelled Requests</a>
             </div>
         </div>
         
@@ -85,7 +111,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
         <div class="table-list">
 
             <?php
-            $sql = "SELECT user_booking.*, venues.name as venue_name, venues.address as venue_address, venues.rate as venue_rate FROM user_booking INNER JOIN venues ON user_booking.venue_id=venues.id AND user_booking.status=0 ORDER BY user_booking.id DESC";
+            $sql = "SELECT user_requests.*, users.full_name as full_name, users.email as email FROM user_requests INNER JOIN users ON user_requests.user_id=users.id AND user_requests.status=0 ORDER BY user_requests.id DESC";
 
             $count = 1;
             
@@ -96,8 +122,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                             echo "<tr>";
                                 echo "<th>#</th>";
                                 echo "<th>User Info</th>";
-                                echo "<th>Event Info</th>";
-                                echo "<th>Capacity</th>";
+                                echo "<th>Event Description</th>";
                                 echo "<th>Status</th>";
                                 echo "<th>Created</th>";
                                 echo "<th>Action</th>";
@@ -108,17 +133,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                             echo "<tr>";
                                 echo "<td>" . $count++ . "</td>";
                                 echo "<td>" . 
-                                    "<p><b>Name: </b>" . $row['name'] . "</p>" .
+                                    "<p><b>Name: </b>" . $row['full_name'] . "</p>" .
                                     "<p><small><b>Email: </b>" . $row['email'] . "</small></p>" .
-                                    "<p><small><b>Contact: </b> ". $row['contact'] ." </small></p>" .
                                 "</td>";
-                                echo "<td>" . 
-                                    "<p><b>Event: </b>" . $row['venue_name'] . "</p>" .
-                                    "<p><small><b>Address: </b>" . $row['venue_address'] . "</small></p>" .
-                                    "<p><small><b>Fee Rate: </b> Ksh " . $row['venue_rate'] . " </small></p>" .
-                                    "<p><a href='/dash/index.php?page=venue&id=". $row['venue_id'] ."'>View Details</a></p>" .
-                                "</td>";
-                                echo "<td>" . $row['capacity'] . "</td>";
+                                echo "<td style='width: 500px;'>". $row['description'] ."</td>";
 
                                 if($row['status'] == 1) { // status 1
                                     echo "<td><span class='badge rounded-pill bg-success'>Confirmed</span></td>";
@@ -152,18 +170,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-body">
-                                            <h5 class="modal-title" id="exampleModalLabel">Confirm <span style="color: var(--primary)"><?php echo $row['name']?></span> Venue Booking</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Confirm <span style="color: var(--primary)"><?php echo $row['full_name']?></span> Private Request</h5>
 
+                                            <small style="color: var(--aux)">***Once Approved please create an event for it</small>
                                             <div class="mt-5">
-                                                <form action="<?php echo htmlspecialchars("/dash/index.php?page=venue_requests")?>" method="post">
+                                                <form action="<?php echo htmlspecialchars("/dash/index.php?page=private_requests")?>" method="post">
                                                     <div class="mb-5">
                                                         <label for="exampleInputEmail1" class="form-label">Additional Confirmation Notes</label>
                                                         <textarea class="form-control <?php echo (!empty($notes_err)) ? 'is-invalid' : ''; ?>" placeholder="Add additional request notes here" name="notes" style="height: 300px"><?php echo $notes; ?></textarea>
                                                         <span class="invalid-feedback"><?php echo $notes_err;?></span>
                                                     </div>
 
-                                                    <input name="action" value="confirm_venue" class="hidden">
-                                                    <input name="booking_id" value="<?php echo $row['id']?>" class="hidden">
+                                                    <input name="action" value="confirm_request" class="hidden">
+                                                    <input name="request_id" value="<?php echo $row['id']?>" class="hidden">
 
                                                     <div class="text-right">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -182,7 +201,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
                                     <div class="modal-content">
                                         <div class="modal-body">
                                             <div class="text-center">
-                                                <form action="<?php echo htmlspecialchars("/dash/index.php?page=venue_requests")?>" method="post">
+                                                <form action="<?php echo htmlspecialchars("/dash/index.php?page=private_requests")?>" method="post">
                                                     <span class="text-danger mb-3" style="font-size: 100px;">
                                                         <i class="far fa-times-circle"></i>
                                                     </span>
@@ -191,8 +210,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['ac
 
                                                     <p class="mb-5" style="font-weight: 100; font-size: 18px">Do you really want to cancel user venue booking? This process cannot be undone.</p>
 
-                                                    <input name="action" value="cancel_booking" class="hidden">
-                                                    <input name="booking_id" value="<?php echo $row['id']?>" class="hidden">
+                                                    <input name="action" value="cancel_request" class="hidden">
+                                                    <input name="request_id" value="<?php echo $row['id']?>" class="hidden">
 
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     <button type="submit" class="btn btn-danger">Cancel Request</button>

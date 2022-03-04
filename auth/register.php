@@ -75,9 +75,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
         
         if($stmt->execute()){
-            header("location: login.php");
+          $subject = 'Welcome '. ucwords($full_name) . ' To QuiOccassions';
+
+          $headers = "From: webmaster@quioccassions.com" . "\r\n" . "MIME-Version: 1.0" . "\r\n";
+          $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+          $message = "<html>
+          <body>
+            <p> Hello, ". ucwords($full_name) . ", </p>
+            <p> At Qui we throw events that people don't forget. Please login to create an event request;</p>
+          </body>
+          </html>";
+
+          mail('michaelolukaka@gmail.com', $subject, $message, $headers);
+          //redirect
+          header("location: login.php");
         } else{
-            echo "Oops! Something went wrong. Please try again later.";
+          echo "Oops! Something went wrong. Please try again later.";
         }
 
         // Close statement
