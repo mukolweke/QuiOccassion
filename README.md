@@ -3,7 +3,7 @@ Sample Vanilla PHP Project. Event Management System
 
 ![Screenshot 2022-03-04 at 16 14 27](https://user-images.githubusercontent.com/15169261/156769869-9042227e-15d3-4a10-b7f3-c3e88f9c0ad8.png)
 
-
+Demo: [Qui Occasssions](https://fierce-eyrie-74688.herokuapp.com/)
 ## Installation
 
 Simply download the app and if you are using:
